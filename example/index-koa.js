@@ -1,14 +1,17 @@
 /**
  * Created by Filipe on 02/03/2015.
  */
-import KoaRouter from 'apey-eye/routers/KoaRouter';
-import KoaGenericRouter from 'apey-eye/routers/KoaGenericRouter';
 
-import RestaurantResource from 'resources/RestaurantResource.js';
-import AddressModel from 'models/AddressModel.js';
-import CategoryModel from 'models/CategoryModel.js';
-import CategoryRestaurantModel from 'models/CategoryRestaurantModel.js';
-import PhoneModel from 'models/PhoneModel.js';
+import ApeyEye from '../apey-eye';
+
+let KoaRouter = ApeyEye.KoaRouter;
+let KoaGenericRouter = ApeyEye.KoaGenericRouter;
+
+import RestaurantResource from './resources/RestaurantResource.js';
+import AddressModel from './models/AddressModel.js';
+import CategoryModel from './models/CategoryModel.js';
+import CategoryRestaurantModel from './models/CategoryRestaurantModel.js';
+import PhoneModel from './models/PhoneModel.js';
 
 
 var router = new KoaGenericRouter();

@@ -7,19 +7,21 @@ import chaiAsPromised from 'chai-as-promised';
 import chaiThings from 'chai-things';
 import Hapi from 'hapi';
 import request from 'request-promise';
-import HapiRouter from '../apey-eye/routers/HapiRouter.js';
-import HapiGenericRouter from '../apey-eye/routers/HapiGenericRouter.js';
-import KoaRouter from '../apey-eye/routers/KoaRouter.js';
-import BaseRouter from '../apey-eye/BaseRouter.js';
-import * as Annotations from '../apey-eye/Annotations.js';
-import GenericResource from '../apey-eye/GenericResource.js';
-import RethinkDBModel from '../apey-eye/RethinkDBModel.js';
-import Input from '../apey-eye/Input.js';
-import ModelRegister from '../apey-eye/ModelRegister.js';
-import RoleModel from '../apey-eye/models/RoleModel.js';
-import UserModel from '../apey-eye/models/UserModel.js';
 import shortid from 'shortid';
 import 'mochawait';
+
+import HapiRouter from '../build/apey-eye/routers/HapiRouter.js';
+import HapiGenericRouter from '../build/apey-eye/routers/HapiGenericRouter.js';
+import KoaRouter from '../build/apey-eye/routers/KoaRouter.js';
+import BaseRouter from '../build/apey-eye/BaseRouter.js';
+import * as Annotations from '../build/apey-eye/Annotations.js';
+import GenericResource from '../build/apey-eye/GenericResource.js';
+import RethinkDBModel from '../build/apey-eye/RethinkDBModel.js';
+import Input from '../build/apey-eye/Input.js';
+import ModelRegister from '../build/apey-eye/ModelRegister.js';
+import RoleModel from '../build/apey-eye/models/RoleModel.js';
+import UserModel from '../build/apey-eye/models/UserModel.js';
+
 
 shortid.characters('0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ-_');
 

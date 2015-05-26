@@ -5,14 +5,15 @@
 import chai from 'chai';
 import chaiAsPromised from 'chai-as-promised';
 import chaiThings from 'chai-things';
-import HapiRouter from '../apey-eye/routers/HapiRouter.js';
-import KoaRouter from '../apey-eye/routers/KoaRouter.js';
-import BaseRouter from '../apey-eye/BaseRouter.js';
-import * as Annotations from '../apey-eye/Annotations.js';
-import GenericResource from '../apey-eye/GenericResource.js';
-import RethinkDBModel from '../apey-eye/RethinkDBModel.js';
-import Input from '../apey-eye/Input.js';
-import ModelRegister from '../apey-eye/ModelRegister.js';
+
+import HapiRouter from '../build/apey-eye/routers/HapiRouter.js';
+import KoaRouter from '../build/apey-eye/routers/KoaRouter.js';
+import BaseRouter from '../build/apey-eye/BaseRouter.js';
+import * as Annotations from '../build/apey-eye/Annotations.js';
+import GenericResource from '../build/apey-eye/GenericResource.js';
+import RethinkDBModel from '../build/apey-eye/RethinkDBModel.js';
+import Input from '../build/apey-eye/Input.js';
+import ModelRegister from '../build/apey-eye/ModelRegister.js';
 
 import 'mochawait';
 

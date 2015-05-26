@@ -1,10 +1,14 @@
 /**
  * Created by Filipe on 12/05/2015.
  */
-import * as Annotations from '../apey-eye/Annotations.js'
-import * as Formatters from '../apey-eye/Formatters.js'
-import GenericResource from '../apey-eye/GenericResource.js'
-import Input from '../apey-eye/Input.js'
+
+import ApeyEye from '../../apey-eye';
+
+let Annotations = ApeyEye.Annotations;
+let Formatters = ApeyEye.Formatters;
+let GenericResource = ApeyEye.GenericResource;
+let Input = ApeyEye.Input;
+
 
 import RestaurantModel from '../models/RestaurantModel.js';
 

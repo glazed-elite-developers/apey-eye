@@ -3,8 +3,11 @@
  */
 
 import chai from 'chai';
-import Input from '../apey-eye/Input';
-import Model from '../apey-eye/Model';
+
+import ApeyEye from '../apey-eye';
+
+let Input = ApeyEye.Input;
+let Model = ApeyEye.Model;
 
 let expect = chai.expect;
 let assert = chai.assert;

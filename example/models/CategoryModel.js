@@ -1,9 +1,12 @@
 /**
  * Created by Filipe on 12/05/2015.
  */
-import * as Annotations from '../apey-eye/Annotations.js'
-import Input from '../apey-eye/Input.js';
-import RethinkDBModel from '../apey-eye/RethinkDBModel.js';
+
+import ApeyEye from '../../apey-eye';
+
+let Annotations = ApeyEye.Annotations;
+let Input = ApeyEye.Input;
+let RethinkDBModel = ApeyEye.RethinkDBModel;
 
 var categoryInput = new Input({
     name: {type: "string", required: true},

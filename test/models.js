@@ -4,13 +4,15 @@
 import chai from 'chai';
 import chaiAsPromised from 'chai-as-promised';
 import _ from 'underscore';
-import DefaultProperties from '../apey-eye/DefaultProperties.js';
-import Model from '../apey-eye/Model.js';
-import RethinkDBModel from '../apey-eye/RethinkDBModel.js';
-import * as Annotations from '../apey-eye/Annotations.js';
-import Input from '../apey-eye/Input.js';
-import ModelRegister from '../apey-eye/ModelRegister.js';
 import 'mochawait';
+
+import ApeyEye from '../apey-eye';
+
+let Model = ApeyEye.Model;
+let RethinkDBModel = ApeyEye.RethinkDBModel;
+let Annotations = ApeyEye.Annotations;
+let Input = ApeyEye.Input;
+let ModelRegister = ApeyEye.ModelRegister;
 
 chai.use(chaiAsPromised);
 

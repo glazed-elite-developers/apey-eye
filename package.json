@@ -2,15 +2,16 @@
   "name": "REST_Framework",
   "version": "0.0.1",
   "description": "Framework REST/HATEOAS for APIs in Node.js",
-  "main": "index.js",
+  "main": "build/apey-eye/index.js",
   "author": "Filipe Sousa",
   "license": "ISC",
   "scripts": {
-    "test": "node --harmony node_modules/istanbul-harmony/lib/cli.js cover node_modules/mocha/bin/_mocha  ./build/test/"
+    "prepublish": "babel --stage 0 --optional runtime --optional asyncToGenerator --ignore build --ignore node_modules . --out-dir build",
+    "pretest": "npm run-script prepublish",
+    "test": "node --harmony node_modules/istanbul-harmony/lib/cli.js cover node_modules/mocha/bin/_mocha --compilers babel-test-preprocessor.js test"
   },
   "dependencies": {
     "async": "^0.9.0",
-    "babel-runtime": "^5.1.11",
     "bluebird": "^2.9.20",
     "boom": "^2.7.1",
     "co": "^4.5.1",
@@ -35,7 +36,8 @@
     "util": "^0.10.3"
   },
   "devDependencies": {
-    "babel-runtime": "^5.0.9",
+    "babel": "^5.4.7",
+    "babel-runtime": "^5.4.7",
     "chai": "^2.1.1",
     "chai-as-promised": "^4.3.0",
     "chai-things": "^0.2.0",

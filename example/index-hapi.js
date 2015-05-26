@@ -1,13 +1,17 @@
 /**
  * Created by Filipe on 02/03/2015.
  */
-import HapiGenericRouter from './../src/apey-eye/routers/HapiGenericRouter.js';
 
-import RestaurantResource from 'resources/RestaurantResource.js';
-import AddressModel from 'models/AddressModel.js';
-import CategoryModel from 'models/CategoryModel.js';
-import CategoryRestaurantModel from 'models/CategoryRestaurantModel.js';
-import PhoneModel from 'models/PhoneModel.js';
+import ApeyEye from '../apey-eye';
+
+let HapiGenericRouter = ApeyEye.HapiGenericRouter;
+
+import RestaurantResource from './resources/RestaurantResource.js';
+import AddressModel from './models/AddressModel.js';
+import CategoryModel from './models/CategoryModel.js';
+import CategoryRestaurantModel from './models/CategoryRestaurantModel.js';
+import PhoneModel from './models/PhoneModel.js';
+
 
 let router = new HapiGenericRouter();
 router.register([{
