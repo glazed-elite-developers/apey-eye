@@ -1,0 +1,174 @@
+'use strict';
+
+var _interopRequireWildcard = function (obj) { return obj && obj.__esModule ? obj : { 'default': obj }; };
+
+var _asyncToGenerator = function (fn) { return function () { var gen = fn.apply(this, arguments); return new Promise(function (resolve, reject) { var callNext = step.bind(null, 'next'); var callThrow = step.bind(null, 'throw'); function step(key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(callNext, callThrow); } } callNext(); }); }; };
+
+var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } };
+
+var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+
+var _get = function get(object, property, receiver) { var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { return get(parent, property, receiver); } } else if ('value' in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } };
+
+var _inherits = function (subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; };
+
+Object.defineProperty(exports, '__esModule', {
+    value: true
+});
+/**
+ * Created by Filipe on 02/03/2015.
+ */
+
+var _Resource2 = require('./Resource');
+
+var _Resource3 = _interopRequireWildcard(_Resource2);
+
+var _import = require('./Annotations');
+
+var Annotations = _interopRequireWildcard(_import);
+
+var _import2 = require('./DefaultProperties');
+
+var DefaultProperties = _interopRequireWildcard(_import2);
+
+var _import3 = require('./Exceptions');
+
+var Exceptions = _interopRequireWildcard(_import3);
+
+var _import4 = require('underscore');
+
+var _import5 = _interopRequireWildcard(_import4);
+
+var GenericResource = (function (_Resource) {
+    function GenericResource() {
+        var _this = this;
+
+        var options = arguments[0] === undefined ? {} : arguments[0];
+
+        _classCallCheck(this, GenericResource);
+
+        _get(Object.getPrototypeOf(GenericResource.prototype), 'constructor', this).call(this, _asyncToGenerator(function* () {
+            var ResourceClass = _this.constructor;
+
+            ResourceClass.checkModel();
+
+            var properties = ResourceClass.joinProperties(options.requestProperties, ResourceClass.post),
+                modelClass = ResourceClass.getModel(ResourceClass.post);
+
+            if (!options.data) {
+                options.data = {};
+            }
+            yield ResourceClass.valid(options.data);
+
+            if (modelClass) {
+                var modelObj = yield new modelClass({ data: options.data, resourceProperties: properties });
+                return ResourceClass._serialize(modelObj.id, modelObj.obj);
+            } else {
+                throw new Exceptions.ModelNotFound(ResourceClass.name);
+            }
+        }));
+    }
+
+    _inherits(GenericResource, _Resource);
+
+    _createClass(GenericResource, [{
+        key: 'put',
+        value: _asyncToGenerator(function* () {
+            var options = arguments[0] === undefined ? {} : arguments[0];
+
+            var self = this,
+                ResourceClass = this.constructor,
+                modelClass = ResourceClass.getModel(ResourceClass.fetch),
+                properties = ResourceClass.joinProperties(options.requestProperties, ResourceClass.fetch);
+
+            if (modelClass) {
+                yield ResourceClass.valid(options.data, ResourceClass.prototype.put);
+
+                var modelObj = yield modelClass.fetchOne({ id: self.id, resourceProperties: properties });
+                modelObj = yield modelObj.put({ data: options.data, resourceProperties: properties });
+                self.obj = modelObj.obj;
+                return self;
+            } else {
+                throw new Exceptions.ModelNotFound(ResourceClass.name);
+            }
+        })
+    }, {
+        key: 'patch',
+        value: _asyncToGenerator(function* () {
+            var options = arguments[0] === undefined ? {} : arguments[0];
+
+            var self = this,
+                ResourceClass = this.constructor,
+                modelClass = ResourceClass.getModel(ResourceClass.fetch),
+                properties = ResourceClass.joinProperties(options.requestProperties, ResourceClass.fetch);
+
+            if (modelClass) {
+                var modelObj = yield modelClass.fetchOne({ id: self.id, resourceProperties: properties });
+                var futureData = _import5['default'].extend(modelObj.obj, options.data);
+                yield ResourceClass.valid(futureData, ResourceClass.prototype.patch);
+
+                modelObj = yield modelObj.patch({ data: options.data, resourceProperties: properties });
+                self.obj = modelObj.obj;
+                return self;
+            } else {
+                throw new Exceptions.ModelNotFound(ResourceClass.name);
+            }
+        })
+    }, {
+        key: 'delete',
+        value: _asyncToGenerator(function* () {
+            var self = this,
+                ResourceClass = this.constructor,
+                modelClass = ResourceClass.getModel(ResourceClass.fetch);
+
+            if (modelClass) {
+                var modelObj = yield modelClass.fetchOne({ id: self.id });
+                return yield modelObj['delete']();
+            } else {
+                throw new Exceptions.ModelNotFound(ResourceClass.name);
+            }
+        })
+    }], [{
+        key: 'fetch',
+        value: _asyncToGenerator(function* () {
+            var options = arguments[0] === undefined ? {} : arguments[0];
+
+            var ResourceClass = this;
+
+            ResourceClass.checkModel();
+            var modelClass = ResourceClass.getModel(ResourceClass.fetch),
+                properties = ResourceClass.joinProperties(options.requestProperties, ResourceClass.fetch);
+
+            if (modelClass) {
+                var modelObj = yield modelClass.fetch({ resourceProperties: properties });
+                return ResourceClass._serializeArray(modelObj, properties);
+            } else {
+                throw new Exceptions.ModelNotFound(ResourceClass.name);
+            }
+        })
+    }, {
+        key: 'fetchOne',
+        value: _asyncToGenerator(function* () {
+            var options = arguments[0] === undefined ? {} : arguments[0];
+
+            var ResourceClass = this;
+
+            ResourceClass.checkModel();
+
+            var modelClass = ResourceClass.getModel(ResourceClass.fetch),
+                properties = ResourceClass.joinProperties(options.requestProperties, ResourceClass.fetch);
+
+            if (modelClass) {
+                var modelObj = yield modelClass.fetchOne({ id: options.id, resourceProperties: properties });
+                return ResourceClass._serialize(modelObj.id, modelObj.obj);
+            } else {
+                throw new Exceptions.ModelNotFound(ResourceClass.name);
+            }
+        })
+    }]);
+
+    return GenericResource;
+})(_Resource3['default']);
+
+exports['default'] = GenericResource;
+module.exports = exports['default'];
