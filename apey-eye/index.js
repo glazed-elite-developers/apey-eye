@@ -17,6 +17,8 @@ import Input from './Input.js';
 import UserModel from './models/UserModel.js';
 import RoleModel from './models/RoleModel.js';
 
+import BaseRouter from './BaseRouter.js';
+
 import HapiGenericRouter from './routers/HapiGenericRouter.js';
 import HapiRouter from './routers/HapiRouter.js';
 
@@ -35,6 +37,7 @@ export default {
     Input : Input,
     UserModel: UserModel,
     RoleModel: RoleModel,
+    BaseRouter: BaseRouter,
     HapiGenericRouter: HapiGenericRouter,
     HapiRouter: HapiRouter,
     KoaGenericRouter: KoaGenericRouter,

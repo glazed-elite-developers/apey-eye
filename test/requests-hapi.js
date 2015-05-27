@@ -9,22 +9,23 @@ import Hapi from 'hapi';
 import request from 'request-promise';
 import shortid from 'shortid';
 import 'mochawait';
+import ModelRegister from '../apey-eye/ModelRegister.js';
 
-import HapiRouter from '../build/apey-eye/routers/HapiRouter.js';
-import HapiGenericRouter from '../build/apey-eye/routers/HapiGenericRouter.js';
-import KoaRouter from '../build/apey-eye/routers/KoaRouter.js';
-import BaseRouter from '../build/apey-eye/BaseRouter.js';
-import * as Annotations from '../build/apey-eye/Annotations.js';
-import GenericResource from '../build/apey-eye/GenericResource.js';
-import RethinkDBModel from '../build/apey-eye/RethinkDBModel.js';
-import Input from '../build/apey-eye/Input.js';
-import ModelRegister from '../build/apey-eye/ModelRegister.js';
-import RoleModel from '../build/apey-eye/models/RoleModel.js';
-import UserModel from '../build/apey-eye/models/UserModel.js';
+import ApeyEye from '../apey-eye';
 
+
+let HapiRouter = ApeyEye.HapiRouter;
+let HapiGenericRouter = ApeyEye.HapiGenericRouter;
+let KoaRouter = ApeyEye.KoaRouter;
+let BaseRouter = ApeyEye.BaseRouter;
+let Annotations = ApeyEye.Annotations;
+let GenericResource = ApeyEye.GenericResource;
+let RethinkDBModel = ApeyEye.RethinkDBModel;
+let Input = ApeyEye.Input;
+let UserModel = ApeyEye.UserModel;
+let RoleModel = ApeyEye.RoleModel;
 
 shortid.characters('0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ-_');
-
 
 chai.use(chaiAsPromised);
 chai.should();
@@ -40,6 +41,7 @@ let server,
 
 describe("hapi", () => {
     before((done)=> {
+        console.log(12)
         ModelRegister.empty();
 
         let restaurantInput = new Input({

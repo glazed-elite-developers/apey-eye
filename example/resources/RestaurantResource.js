@@ -9,7 +9,6 @@ let Formatters = ApeyEye.Formatters;
 let GenericResource = ApeyEye.GenericResource;
 let Input = ApeyEye.Input;
 
-
 import RestaurantModel from '../models/RestaurantModel.js';
 
 @Annotations.Model(RestaurantModel)

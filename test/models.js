@@ -5,6 +5,7 @@ import chai from 'chai';
 import chaiAsPromised from 'chai-as-promised';
 import _ from 'underscore';
 import 'mochawait';
+import ModelRegister from '../apey-eye/ModelRegister.js';
 
 import ApeyEye from '../apey-eye';
 
@@ -12,7 +13,6 @@ let Model = ApeyEye.Model;
 let RethinkDBModel = ApeyEye.RethinkDBModel;
 let Annotations = ApeyEye.Annotations;
 let Input = ApeyEye.Input;
-let ModelRegister = ApeyEye.ModelRegister;
 
 chai.use(chaiAsPromised);
 

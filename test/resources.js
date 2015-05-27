@@ -7,15 +7,16 @@ import chaiThings from 'chai-things';
 import _ from 'underscore';
 import 'mochawait';
 
-import DefaultProperties from '../build/apey-eye/DefaultProperties.js';
-import Model from '../build/apey-eye/Model.js';
-import RethinkDBModel from '../build/apey-eye/RethinkDBModel.js';
-import Resource from '../build/apey-eye/Resource.js';
-import GenericResource from '../build/apey-eye/GenericResource.js';
-import Input from '../build/apey-eye/Input.js';
-import * as Annotations from '../build/apey-eye/Annotations.js';
-import * as Formatters from '../build/apey-eye/Formatters.js';
-import ModelRegister from '../build/apey-eye/ModelRegister.js';
+import ModelRegister from '../apey-eye/ModelRegister.js';
+import ApeyEye from '../apey-eye';
+
+let Model = ApeyEye.Model;
+let RethinkDBModel = ApeyEye.RethinkDBModel;
+let Resource = ApeyEye.Resource;
+let GenericResource = ApeyEye.GenericResource;
+let Input = ApeyEye.Input;
+let Annotations = ApeyEye.Annotations;
+let Formatters = ApeyEye.Formatters;
 
 chai.use(chaiAsPromised);
 chai.should();

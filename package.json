@@ -2,19 +2,24 @@
   "name": "REST_Framework",
   "version": "0.0.1",
   "description": "Framework REST/HATEOAS for APIs in Node.js",
-  "main": "build/apey-eye/index.js",
+  "main": "./build/apey-eye/index.js",
   "author": "Filipe Sousa",
   "license": "ISC",
   "scripts": {
-    "prepublish": "babel --stage 0 --optional runtime --optional asyncToGenerator --ignore build --ignore node_modules . --out-dir build",
+    "prepublish": "node node_modules/gulp/bin/gulp.js",
     "pretest": "npm run-script prepublish",
-    "test": "node --harmony node_modules/istanbul-harmony/lib/cli.js cover node_modules/mocha/bin/_mocha --compilers babel-test-preprocessor.js test"
+    "pretest-cov": "npm run-script prepublish",
+    "test-cov": "node --harmony node_modules/istanbul-harmony/lib/cli.js cover node_modules/mocha/bin/_mocha ./build/test",
+    "test" : "node --harmony node_modules/mocha/bin/_mocha ./build/test"
   },
   "dependencies": {
     "async": "^0.9.0",
+    "babel-runtime": "^5.4.7",
     "bluebird": "^2.9.20",
     "boom": "^2.7.1",
     "co": "^4.5.1",
+    "gulp": "^3.8.11",
+    "gulp-babel": "^5.1.0",
     "hapi": "^8.4.0",
     "hapi-async-handler": "^1.0.2",
     "hapi-swagger": "^0.7.3",
@@ -36,8 +41,6 @@
     "util": "^0.10.3"
   },
   "devDependencies": {
-    "babel": "^5.4.7",
-    "babel-runtime": "^5.4.7",
     "chai": "^2.1.1",
     "chai-as-promised": "^4.3.0",
     "chai-things": "^0.2.0",
