@@ -3,17 +3,23 @@
 ## Installation
 ### Installation
 
+```
 $ npm install apey-eye
+```
 
 ### Start Example
 
+```
 $ npm run-script start-koa
 $ npm run-script start-hapi
+```
 
 ### Run Tests
 
+```
 $ npm test
 $ np run-script test-cov
+```
 
 Creation of a REST / HATEOAS Framework Open Source to develop APIs in NodeJS
 
