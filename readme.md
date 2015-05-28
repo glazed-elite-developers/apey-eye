@@ -1,4 +1,20 @@
 # Apey Eye
+
+## Installation
+### Installation
+
+$ npm install apey-eye
+
+### Start Example
+
+$ npm run-script start-koa
+$ npm run-script start-hapi
+
+### Run Tests
+
+$ npm test
+$ np run-script test-cov
+
 Creation of a REST / HATEOAS Framework Open Source to develop APIs in NodeJS
 
 Apey Eye is a REST framework for Node.js that pretends to offer to developers a simple and intuitive way to develop their web services, needing only to understand a small set of concepts.
