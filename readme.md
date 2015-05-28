@@ -18,7 +18,7 @@ $ npm run-script start-hapi
 
 ```
 $ npm test
-$ np run-script test-cov
+$ npm run-script test-cov
 ```
 
 Creation of a REST / HATEOAS Framework Open Source to develop APIs in NodeJS
