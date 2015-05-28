@@ -49,7 +49,6 @@ class GenericResource extends Resource {
         else {
             throw new Exceptions.ModelNotFound(ResourceClass.name);
         }
-
     }
 
     static async fetchOne(options = {}) {

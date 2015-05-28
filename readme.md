@@ -160,18 +160,18 @@ class MyResource extends Resource{}
 let restaurantInput = new Input({
 	name:       {type: "string", required: true},
 	year:       {type: "number", valid: yearValidator},
-  created:    {type: "date", default: "now"},
-  type:       {type: "string", choices: ["grill", "vegetarian", "fast-food", "japanese", (...) ]},
-  phone:      {type: "string", regex: /\(?([0-9]{3})\)?([ .-]?)([0-9]{3})\2([0-9]{4})/}
-
+    created:    {type: "date", default: "now"},
+    type:       {type: "string", choices: ["grill", "vegetarian", "fast-food", "japanese", (...) ]},
+    phone:      {type: "string", regex: /\(?([0-9]{3})\)?([ .-]?)([0-9]{3})\2([0-9]{4})/}
 });
-```
+
 let yearValidator = function(value){
   if(value <= 2015)
     return true;
   else
     throw new Error("Invalid year.");  
 };
+```
 
 For the definition of each field of Input can be used the following properties:
 

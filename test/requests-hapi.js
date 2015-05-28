@@ -41,7 +41,6 @@ let server,
 
 describe("hapi", () => {
     before((done)=> {
-        console.log(12)
         ModelRegister.empty();
 
         let restaurantInput = new Input({
@@ -65,14 +64,14 @@ describe("hapi", () => {
             @Annotations.Action()
             static async get_first() {
                 let data = {name: "First Restaurant"};
-                return RestaurantResource._serialize(undefined, data);
+                return data;
             }
 
             @Annotations.Action()
             async get_name() {
                 let obj = this.obj;
                 this.obj = {name: obj.name};
-                return this;
+                return this.obj;
             }
 
             @Annotations.Authentication('basic')
@@ -194,7 +193,7 @@ describe("hapi", () => {
                     body: restaurantData
                 });
                 expect(resultAction).to.deep.equal({name: restaurantData.name});
-
+                console.log(2,resultAction)
             });
             it("Test autentication basic fails", async ()=> {
                 let restaurantData = {name: "restaurantName", phone: 123123};

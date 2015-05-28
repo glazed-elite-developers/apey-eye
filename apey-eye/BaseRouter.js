@@ -66,10 +66,11 @@ class BaseRouter {
                 throw new Exceptions.Forbidden();
             }
             else {
+
                 if (!user || !user.obj.role) {
                     throw new Exceptions.Forbidden();
                 }
-                if (allowedRoles.indexOf(user.role) > -1) {
+                if (allowedRoles.indexOf(user.obj.role) > -1) {
                     return true;
                 }
                 else {
@@ -114,22 +115,6 @@ class BaseRouter {
             pathType = 'collection';
         }
         return resourceClass.getResourceMethod(pathType, httpMethod);
-        //var methodProperties = Resource.HTTPResourceMethods[pathType][httpMethod.toLowerCase()],
-        //    resourceMethod;
-        //if (methodProperties) {
-        //    if (methodProperties.static) {
-        //        if (methodProperties.method === 'constructor') {
-        //            resourceMethod = resourceClass;
-        //        }
-        //        else {
-        //            resourceMethod = resourceClass[methodProperties.method];
-        //        }
-        //    }
-        //    else {
-        //        resourceMethod = resourceClass.prototype[methodProperties.method];
-        //    }
-        //}
-        //return resourceMethod;
     }
 
     static parseRequest(request) {

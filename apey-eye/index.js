@@ -19,12 +19,11 @@ import RoleModel from './models/RoleModel.js';
 
 import BaseRouter from './BaseRouter.js';
 
-import HapiGenericRouter from './routers/HapiGenericRouter.js';
-import HapiRouter from './routers/HapiRouter.js';
-
 import KoaGenericRouter from './routers/KoaGenericRouter.js';
 import KoaRouter from './routers/KoaRouter.js';
 
+import HapiGenericRouter from './routers/HapiGenericRouter.js';
+import HapiRouter from './routers/HapiRouter.js';
 
 export default {
     Annotations: Annotations,
@@ -38,10 +37,10 @@ export default {
     UserModel: UserModel,
     RoleModel: RoleModel,
     BaseRouter: BaseRouter,
-    HapiGenericRouter: HapiGenericRouter,
-    HapiRouter: HapiRouter,
     KoaGenericRouter: KoaGenericRouter,
-    KoaRouter: KoaRouter
+    KoaRouter: KoaRouter,
+    HapiGenericRouter: HapiGenericRouter,
+    HapiRouter: HapiRouter
 
 }
 

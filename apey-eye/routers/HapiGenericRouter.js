@@ -54,7 +54,10 @@ class HapiGenericRouter extends HapiRouter {
                                     let path = request.path.slice(RouterConfig.basePath.length);
                                     let resourceName = HapiRouter.resourceName(path);
                                     let ResourceClass;
-                                    if (resourceName && !self.entries[resourceName]) {
+                                    if(self.entries[resourceName]){
+                                        throw new Exceptions.NotImplemented();
+                                    }
+                                    if (resourceName) {
                                         ResourceClass = HapiRouter.createGenericResourceClass(resourceName);
 
                                         let oldListLength = self.routesList.length;

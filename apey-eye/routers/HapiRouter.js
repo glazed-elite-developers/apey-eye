@@ -16,7 +16,6 @@ import * as DefaultProperties from './../DefaultProperties.js';
 import Joi from 'hapi/node_modules/joi';
 import Hapi from 'hapi';
 import _ from 'underscore';
-import passport from 'passport';
 import Boom from 'Boom';
 
 
@@ -33,6 +32,8 @@ class HapiRouter extends BaseRouter {
         this.routesList = [];
 
         this.addRootRoute();
+
+        this.passport = require("passport");
 
     }
     start(options, callback){
@@ -51,7 +52,7 @@ class HapiRouter extends BaseRouter {
         let authenticationScheme = function () {
             return {
                 authenticate: function (request, reply) {
-                    return this.checkAuthentication(request, reply);
+                    return self.checkAuthentication(request, reply);
                 }
             };
         };
@@ -346,7 +347,6 @@ class HapiRouter extends BaseRouter {
 
         if (!request.resourceClass || !request.resourceMethod) {
             let resourceMethod = RouterClass.getResourceMethod(request.params.id, request.method, ResourceClass);
-
             if (!resourceMethod) {
                 throw new Exceptions.MethodNotAllowed();
             }
@@ -373,7 +373,7 @@ class HapiRouter extends BaseRouter {
             let authenticationMethod = request.resourceClass.getAuthentication(request.resourceMethod);
 
             if (authenticationMethod && authenticationMethod != 'none') {
-                let auth = new Auth(passport);
+                let auth = new Auth(this.passport);
                 auth.authenticate(authenticationMethod, {session: false}, function (err, user) {
                     if (err) return reply(Boom.unauthorized(err));
                     if (user === false) {

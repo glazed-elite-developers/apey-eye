@@ -10,7 +10,6 @@ import Auth from './../Auth.js';
 import RouterConfig from '../config/router.js';
 
 import koa from 'koa';
-import passport from 'koa-passport';
 import _ from 'underscore';
 import router from 'koa-router';
 import compose from 'koa-compose';
@@ -20,16 +19,17 @@ import http from 'http';
 class KoaRouter extends BaseRouter {
     constructor() {
         super();
-
         this.router = router();
         this.router.use(this.errorHandling);
         this.entries = {};
+
+        KoaRouter.passport = require('koa-passport');
     }
     start(options, callback){
         var app = koa();
 
         app.use(bodyParser());
-        app.use(passport.initialize());
+        app.use(KoaRouter.passport.initialize());
         app.use(this.routes());
 
         app.listen(options.port);
@@ -169,7 +169,7 @@ class KoaRouter extends BaseRouter {
         let authenticationMethod = this.resourceClass.getAuthentication(this.resourceMethod);
 
         if(authenticationMethod && authenticationMethod != 'none'){
-            let auth = new Auth(passport);
+            let auth = new Auth(KoaRouter.passport);
             yield* auth.authenticate(authenticationMethod, {session: false}, function*(err, user, info) {
                 if (err) throw new Exceptions.BadRequest(err);
                 if (user === false) {

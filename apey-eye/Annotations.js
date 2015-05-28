@@ -2,6 +2,7 @@
  * Created by Filipe on 03/03/2015.
  */
 import BaseClass from './BaseClass.js';
+import _ from 'underscore';
 
 function Annotation(type, properties) {
     return function decorator(target, key, descriptor) {
@@ -262,16 +263,18 @@ export {RolesAnnotation as Roles}
 function ActionAnnotation() {
     return function decorator(target, key, descriptor) {
         if (descriptor) {
-            let actions;
+            let actions,
+                ResourceClass;
 
             if(target.prototype instanceof BaseClass){
-                if(!target.actions){
+                ResourceClass = target;
+                if(!ResourceClass.actions){
                     target.actions = {instance:{},collection:{}};
                 }
-                actions = target.actions.collection;
+                actions = ResourceClass.actions.collection;
             }
             else if(target.constructor.prototype instanceof BaseClass){
-                let ResourceClass = target.constructor;
+                ResourceClass = target.constructor;
                 if(!ResourceClass.actions){
                     ResourceClass.actions = {instance:{},collection:{}};
                 }
@@ -279,7 +282,7 @@ function ActionAnnotation() {
             }
             if (!actions[key]) {
                 actions[key] = descriptor.value;
-                return descriptor;
+                return wrapActionDescriptor(ResourceClass, descriptor);
             } else {
                 throw new Error('Action \'' + key + ' already exists.');
             }
@@ -287,6 +290,16 @@ function ActionAnnotation() {
     }
 }
 export {ActionAnnotation as Action}
+
+function wrapActionDescriptor(ResourceClass, descriptor){
+    let oldDescritor = _.clone(descriptor);
+
+    descriptor.value =  async function() {
+        let result = await oldDescritor.value.call(this, arguments)
+        return ResourceClass._serialize(undefined, result);
+    };
+    return descriptor;
+}
 
 function DocumentationAnnotation(documentation) {
     if (documentation != undefined && typeof documentation === "object" && !Array.isArray(documentation)) {

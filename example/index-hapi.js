@@ -4,20 +4,35 @@
 
 import ApeyEye from '../apey-eye';
 
+let HapiRouter = ApeyEye.HapiRouter;
 let HapiGenericRouter = ApeyEye.HapiGenericRouter;
 
 import RestaurantResource from './resources/RestaurantResource.js';
-import AddressModel from './models/AddressModel.js';
-import CategoryModel from './models/CategoryModel.js';
-import CategoryRestaurantModel from './models/CategoryRestaurantModel.js';
-import PhoneModel from './models/PhoneModel.js';
+import PhoneResource from './resources/PhoneResource.js';
+import CategoryResource from './resources/CategoryResource.js';
+import AddressResource from './resources/AddressResource.js';
+import CategoryRestaurantResource from './resources/CategoryRestaurantResource.js';
 
 
 let router = new HapiGenericRouter();
 router.register([{
-    path: 'restaurant',
-    resource: RestaurantResource
-}
+        path: 'restaurant',
+        resource: RestaurantResource
+    },
+    {
+        resource: PhoneResource
+    },
+    {
+        resource: CategoryResource
+    },
+    {
+        path:"addresses",
+        resource: AddressResource
+    },
+    {
+        path:"catrest",
+        resource: CategoryRestaurantResource
+    }
 ]);
 
 router.start({port:3000},function (err, server) {

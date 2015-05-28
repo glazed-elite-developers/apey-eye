@@ -88,21 +88,22 @@ class Resource extends BaseClass {
                 }catch(e){}
             }
         });
+        if(ResourceClass.actions) {
 
-        Object.keys(ResourceClass.actions[pathType]).forEach(action => {
+            Object.keys(ResourceClass.actions[pathType]).forEach(action => {
 
-            let i = action.indexOf("_");
-            let method = action.substr(0, i);
-            let actionName = action.substr(i + 1);
+                let i = action.indexOf("_");
+                let method = action.substr(0, i);
+                let actionName = action.substr(i + 1);
 
-            if (method && actionName) {
-                options.actions[actionName] = {
-                    http_method: method.toUpperCase(),
-                    path: `/${actionName}`
-                };
-            }
-        });
-
+                if (method && actionName) {
+                    options.actions[actionName] = {
+                        http_method: method.toUpperCase(),
+                        path: `/${actionName}`
+                    };
+                }
+            });
+        }
         return options;
     }
 
@@ -316,6 +317,7 @@ class Resource extends BaseClass {
     static async _handleRequest(options) {
         let ResourceClass = this,
             actionMethod = ResourceClass._getActionMethod(options);
+
         if (actionMethod) {
             if (options.pathType === 'instance_action') {
                 let obj = await ResourceClass.fetchOne({id: options.id});
@@ -325,7 +327,6 @@ class Resource extends BaseClass {
                 return ResourceClass[actionMethod]({data: options.data, requestProperties: options.requestProperties});
             }
         }
-
         let resourceMethodProperties = Resource.HTTPResourceMethods[options.pathType][options.method.toLowerCase()];
         if (this.allowedMethod(resourceMethodProperties)) {
 

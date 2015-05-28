@@ -13,7 +13,6 @@ import CategoryModel from './models/CategoryModel.js';
 import CategoryRestaurantModel from './models/CategoryRestaurantModel.js';
 import PhoneModel from './models/PhoneModel.js';
 
-
 var router = new KoaGenericRouter();
 router.register([{
     path: 'restaurant',
@@ -22,7 +21,7 @@ router.register([{
 
 router.start({port:3000},function (err, server) {
     if(!err){
-        console.log('Server running at:', server);
+        console.log('Server running at');
     }
     else{
         console.log('Error starting server');

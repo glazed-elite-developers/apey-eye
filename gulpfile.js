@@ -2,7 +2,7 @@ var gulp = require('gulp'),
     babel = require('gulp-babel');
 
 
-gulp.task('traceur', function () {
+gulp.task('babel', function () {
 
     var includeFolders = [
         "apey-eye",
@@ -22,7 +22,15 @@ gulp.task('traceur', function () {
 });
 
 gulp.task('watch', function () {
-    gulp.watch([es6Path], ['traceur']);
+    var includeFolders = [
+        "apey-eye",
+        "test",
+        "example"
+    ];
+
+    includeFolders.forEach(function(folder){
+        gulp.watch(["./"+folder+"/**/*"], ['babel']);
+    })
 });
 
-gulp.task('default', ['traceur']);
+gulp.task('default', ['babel',"watch"]);
