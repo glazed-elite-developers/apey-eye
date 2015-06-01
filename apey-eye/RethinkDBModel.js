@@ -49,9 +49,7 @@ class RethinkDBModel extends Model {
             tableName = ModelClass.getName(ModelClass.fetchOne),
             properties = ModelClass.joinProperties(options.resourceProperties, ModelClass.fetchOne),
             db = new RethinkDBAdapter(tableName);
-
         await ModelClass._checkDataTable(false);
-
         let obj = await db.getObject(options.id, properties);
         if (!obj) {
             throw new Exceptions.NotFound(options.id);

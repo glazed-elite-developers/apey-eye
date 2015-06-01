@@ -12,7 +12,6 @@ class GenericResource extends Resource {
     constructor(options = {}) {
         super();
         super(async () =>  {
-            console.log("asd")
             let ResourceClass = this.constructor;
 
             ResourceClass.checkModel();

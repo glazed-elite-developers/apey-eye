@@ -230,7 +230,9 @@ class Resource extends BaseClass {
                 throw new Exceptions.NotFound(options.action);
             }
             else if (options.pathType === 'instance') {
+
                 let actionMethod = `${options.method}_${options.id}`;
+
                 for (let key in ResourceClass.actions.collection) {
                     if (typeof ResourceClass[key] === "function") {
                         if (key.toLowerCase() === actionMethod.toLowerCase()) {
@@ -248,8 +250,20 @@ class Resource extends BaseClass {
         }
     }
 
-    static getResourceMethod(pathType, httpMethod) {
-        var methodProperties = Resource.HTTPResourceMethods[pathType][httpMethod.toLowerCase()],
+    static getResourceMethod(options) {
+
+        let ResourceClass = this,
+            actionMethod = ResourceClass._getActionMethod(options);
+        if (actionMethod) {
+            if (options.pathType === 'instance_action') {
+                return ResourceClass.prototype[actionMethod];
+            }
+            else if (options.pathType === 'instance') {
+                return ResourceClass[actionMethod];
+            }
+        }
+
+        var methodProperties = Resource.HTTPResourceMethods[options.pathType][options.method.toLowerCase()],
             resourceMethod;
         if (methodProperties) {
             if (methodProperties.static) {
@@ -327,6 +341,7 @@ class Resource extends BaseClass {
                 return ResourceClass[actionMethod]({data: options.data, requestProperties: options.requestProperties});
             }
         }
+
         let resourceMethodProperties = Resource.HTTPResourceMethods[options.pathType][options.method.toLowerCase()];
         if (this.allowedMethod(resourceMethodProperties)) {
 

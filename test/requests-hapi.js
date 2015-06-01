@@ -161,16 +161,13 @@ describe("hapi", () => {
                     json: true,
                     body: restaurantData
                 });
-
                 expect(obj).to.not.be.undefined;
                 expect(obj.id).to.not.be.undefined;
                 expect(obj.name).to.equal(restaurantData.name);
-
                 let obj2 = await request.get({
                     url: server.info.uri + '/classes/restaurant/' + obj.id,
                     json: true
                 });
-
                 expect(obj).to.deep.equal(obj2);
 
                 expect(request.patch({
@@ -193,7 +190,6 @@ describe("hapi", () => {
                     body: restaurantData
                 });
                 expect(resultAction).to.deep.equal({name: restaurantData.name});
-                console.log(2,resultAction)
             });
             it("Test autentication basic fails", async ()=> {
                 let restaurantData = {name: "restaurantName", phone: 123123};
@@ -202,7 +198,7 @@ describe("hapi", () => {
                     url: server.info.uri + '/classes/restaurant/',
                     json: true,
                     body: restaurantData
-                });
+                }); 
 
                 expect(request.del({
                     url: server.info.uri + '/classes/restaurant/' + obj.id
@@ -303,6 +299,7 @@ describe("hapi", () => {
                 expect(obj).to.not.be.undefined;
                 expect(obj.id).to.not.be.undefined;
                 expect(obj.name).to.equal(restaurantData.name);
+
 
                 let obj2 = await request.get({
                     url: server.info.uri + `/classes/${resourceName}/` + obj.id,

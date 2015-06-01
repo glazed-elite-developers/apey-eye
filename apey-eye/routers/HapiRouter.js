@@ -129,7 +129,6 @@ class HapiRouter extends BaseRouter {
                 let i = action.indexOf("_");
                 let method = action.substr(0, i);
                 let actionName = action.substr(i + 1);
-
                 if (method && actionName) {
                     this.addRoute({
                         path: `${pathTypes.collection}/${actionName}`,
@@ -165,7 +164,10 @@ class HapiRouter extends BaseRouter {
 
                 if (pathType !== 'instance_action') {
 
-                    let resourceMethod = ResourceClass.getResourceMethod(pathType, httpMethod);
+                    let resourceMethod = ResourceClass.getResourceMethod({
+                        pathType: pathType,
+                        method : httpMethod
+                    });
 
                     if (resourceMethod) {
                         this.addRoute({
@@ -222,7 +224,9 @@ class HapiRouter extends BaseRouter {
             resourceDocumentation = options.ResourceClass.getDocumentation.call(options.resourceMethod),
             tags = ['api'],
             resourceName = options.ResourceClass.getName(),
-            validate = {};
+            validate = {
+                params: {}
+            };
 
 
         if (resourceName) {
@@ -231,11 +235,16 @@ class HapiRouter extends BaseRouter {
 
         if ((options.pathType === 'instance' && !options.action) || options.pathType === 'instance_action') {
 
-            validate.params = {
-                id: Joi.string()
+            validate.params.id = Joi.string()
                     .required()
-                    .description('instance ID')
-            };
+                    .description('instance ID');
+
+        }
+        if ( options.pathType === 'instance_action') {
+
+            validate.params.action = Joi.string()
+                    .required()
+                    .description('instance ID');
 
         }
         if(options.pathType === 'collection' && options.httpMethod.toUpperCase() === 'GET'){
@@ -261,6 +270,7 @@ class HapiRouter extends BaseRouter {
         route.config.tags = tags;
         route.config.validate = validate;
     }
+
     static async handleRequest(resourceClass, pathType, request, reply) {
         try {
             let result = await resourceClass._handleRequest({
@@ -296,7 +306,6 @@ class HapiRouter extends BaseRouter {
         try {
             request.requestProperties = request.requestProperties || {};
             this.fetchResource(request);
-
             this.checkRoles(request, err => {
                 if (!err) {
                     HapiRouter.fetchRequestProperties(request);
@@ -345,10 +354,18 @@ class HapiRouter extends BaseRouter {
             ResourceClass = this.entries[resourceName],
             RouterClass = this.constructor;
 
+        if(request.params.id){
+            let pathRegEx = /[^\/]+(?=\/$|$)/;
+            let match = request.route.path.match(pathRegEx);
+            if(match && match[0] != "{id}"){
+                request.params.action = match[0];
+            }
+        }
+
         if (!request.resourceClass || !request.resourceMethod) {
-            let resourceMethod = RouterClass.getResourceMethod(request.params.id, request.method, ResourceClass);
+            let resourceMethod = RouterClass.getResourceMethod(request, ResourceClass);
             if (!resourceMethod) {
-                throw new Exceptions.MethodNotAllowed();
+                throw new Exceptions.NotImplemented();
             }
             else {
                 request.resourceMethod = resourceMethod;

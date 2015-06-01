@@ -97,9 +97,9 @@ class KoaRouter extends BaseRouter {
         var stack = [];
 
         stack.push(function*(next) {
-            let resourceMethod = RouterClass.getResourceMethod(this.params.id, this.method, resourceClass);
+            let resourceMethod = RouterClass.getResourceMethod(this, resourceClass);
             if (!resourceMethod) {
-                throw new Exceptions.MethodNotAllowed();
+                throw new Exceptions.NotImplemented();
             }
             else {
                 this.resourceMethod = resourceMethod;

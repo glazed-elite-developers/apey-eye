@@ -16,10 +16,15 @@ import PhoneModel from '../models/PhoneModel.js';
 @Annotations.Methods(["static.fetch", "static.fetchOne"])
 class PhoneResource extends GenericResource {
     @Annotations.Action()
-    async get_register(options){
+    async post_register(options){
         //DO SOME STUFF
         return "Registered"
     }
+    @Annotations.Action()
+    static async post_register(options){
+    //DO SOME STUFF
+    return "Registered static"
+}
 }
 
 export default PhoneResource;

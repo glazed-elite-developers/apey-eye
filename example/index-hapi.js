@@ -30,7 +30,6 @@ router.register([{
         resource: AddressResource
     },
     {
-        path:"catrest",
         resource: CategoryRestaurantResource
     }
 ]);

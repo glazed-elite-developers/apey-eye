@@ -105,16 +105,23 @@ class BaseRouter {
         }
     }
 
-    static getResourceMethod(id, httpMethod, resourceClass) {
-        var pathType;
-
-        if (id) {
+    static getResourceMethod(request, resourceClass) {
+        let pathType;
+        if (request.params.action && request.params.id) {
+            pathType = 'instance_action';
+        }
+        else if(request.params.id) {
             pathType = 'instance';
         }
         else {
             pathType = 'collection';
         }
-        return resourceClass.getResourceMethod(pathType, httpMethod);
+        return resourceClass.getResourceMethod({
+            method : request.method,
+            pathType : pathType,
+            id : request.params.id,
+            action : request.params.action
+        });
     }
 
     static parseRequest(request) {

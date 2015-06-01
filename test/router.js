@@ -71,11 +71,11 @@ describe("Router",() => {
         });
 
         it("Get Resource Method",()=>{
-            expect(BaseRouter.getResourceMethod(false, "POST", TestResource)).to.deep.equal(TestResource);
-            expect(BaseRouter.getResourceMethod(true,"GET", TestResource)).to.deep.equal(TestResource.fetchOne);
-            expect(BaseRouter.getResourceMethod(false,"GET", TestResource)).to.deep.equal(TestResource.fetch);
-            expect(BaseRouter.getResourceMethod(true,"DELETE", TestResource)).to.deep.equal(TestResource.prototype.delete);
-            expect(BaseRouter.getResourceMethod(true,"PATCH", TestResource)).to.deep.equal(TestResource.prototype.patch);
+            expect(BaseRouter.getResourceMethod({params: {id : false}, method: 'POST'}, TestResource)).to.deep.equal(TestResource);
+            expect(BaseRouter.getResourceMethod({params: {id : true}, method: 'GET'}, TestResource)).to.deep.equal(TestResource.fetchOne);
+            expect(BaseRouter.getResourceMethod({params: {id : false},method:  'GET'}, TestResource)).to.deep.equal(TestResource.fetch);
+            expect(BaseRouter.getResourceMethod({params: {id : true}, method: 'DELETE'}, TestResource)).to.deep.equal(TestResource.prototype['delete']);
+            expect(BaseRouter.getResourceMethod({params: {id : true}, method: 'PATCH'}, TestResource)).to.deep.equal(TestResource.prototype.patch);
         });
         it('Parse Request', () => {
             let request = {

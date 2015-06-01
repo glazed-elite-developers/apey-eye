@@ -15,38 +15,6 @@ class Model extends BaseClass {
     static _serialize(id, data) {
         var ModelClass = this;
 
-
-        //let obj = Object.create(ModelClass.prototype);
-        //let obj = ModelClass.prototype;
-        //let obj;
-        //obj = Object.create(ModelClass && ModelClass.prototype, {
-        //    constructor: {
-        //        value: obj,
-        //        enumerable: false,
-        //        writable: true,
-        //        configurable: true
-        //    }
-        //});
-        ////obj.__proto__ = ModelClass;
-        //
-        //let asd = function(obj){
-        //    if(obj.__proto__.constructor.name === "BaseClass"){
-        //        obj.__proto__.__proto__ = undefined;
-        //    }
-        //    else{
-        //        console.log(1)
-        //        asd(obj.__proto__);
-        //    }
-        //
-        //};
-        //asd(obj);
-        //
-        //obj.id = id;
-        //obj.obj = data;
-        //obj.oldObj = _.clone(data);
-        //obj.valid = async function (method) {
-        //    return await ModelClass.valid(this.obj, method);
-        //};
         let obj = {
             id: id,
             obj: data,
