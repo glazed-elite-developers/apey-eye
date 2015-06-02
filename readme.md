@@ -1,6 +1,6 @@
 # Apey Eye
 
-## Installation
+
 ### Installation
 
 ```
@@ -21,7 +21,7 @@ $ npm test
 $ npm run-script test-cov
 ```
 
-Creation of a REST / HATEOAS Framework Open Source to develop APIs in NodeJS
+
 
 Apey Eye is a REST framework for Node.js that pretends to offer to developers a simple and intuitive way to develop their web services, needing only to understand a small set of concepts.
 
@@ -44,6 +44,14 @@ In addiction to make the source code and their usage by developers mode simpler,
 
 Furthermore, this object oriented approach allow entities like _Model_ and _Resource_ to be used in a imperative way by developer, facilitating their use independently of structures such as the _Router_. 
 Thus, this still allows them to be more easily testable programmatically.
+
+* [Resources](https://github.com/glazedSolutions/apey-eye#resources)
+* [Router](https://github.com/glazedSolutions/apey-eye#router)
+* [Models](https://github.com/glazedSolutions/apey-eye#models)
+* [Relations](https://github.com/glazedSolutions/apey-eye#relations)
+* [GenericResource](https://github.com/glazedSolutions/apey-eye#genericresource)
+* [GenericRouter](https://github.com/glazedSolutions/apey-eye#genericrouter)
+* [Requests](https://github.com/glazedSolutions/apey-eye#requests)
 
 ## Resources
 
