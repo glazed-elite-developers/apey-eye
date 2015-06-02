@@ -45,6 +45,8 @@ In addiction to make the source code and their usage by developers mode simpler,
 Furthermore, this object oriented approach allow entities like _Model_ and _Resource_ to be used in a imperative way by developer, facilitating their use independently of structures such as the _Router_. 
 Thus, this still allows them to be more easily testable programmatically.
 
+## Index
+
 * [Resources](https://github.com/glazedSolutions/apey-eye#resources)
 * [Router](https://github.com/glazedSolutions/apey-eye#router)
 * [Models](https://github.com/glazedSolutions/apey-eye#models)
