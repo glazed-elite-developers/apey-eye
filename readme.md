@@ -21,11 +21,13 @@ $ npm test
 $ npm run-script test-cov
 ```
 
-
-
 Apey Eye is a REST framework for Node.js that pretends to offer to developers a simple and intuitive way to develop their web services, needing only to understand a small set of concepts.
 
 Epey Eye is based essentially in following concepts:
+
+* **Input:**
+It is the entity used to build a schema to validate data. 
+The main goal is to use instances of this entity associated to *Models* or *Resources* to validate data in any point of request handling. Can be used tovalidate data received from clients but can also be used to validate, for example, data sent to them.
 
 * **Model:**
 It is the unique entity in framework able to connect to database, may be implemented in a specific way according to the database that will be used.
@@ -47,187 +49,22 @@ Thus, this still allows them to be more easily testable programmatically.
 
 ## Index
 
-* [Resources](https://github.com/glazedSolutions/apey-eye#resources)
-* [Router](https://github.com/glazedSolutions/apey-eye#router)
+* [Input](https://github.com/glazedSolutions/apey-eye#input)
 * [Models](https://github.com/glazedSolutions/apey-eye#models)
 * [Relations](https://github.com/glazedSolutions/apey-eye#relations)
+* [Resources](https://github.com/glazedSolutions/apey-eye#resources)
+* [Router](https://github.com/glazedSolutions/apey-eye#router)
 * [GenericResource](https://github.com/glazedSolutions/apey-eye#genericresource)
 * [GenericRouter](https://github.com/glazedSolutions/apey-eye#genericrouter)
 * [Requests](https://github.com/glazedSolutions/apey-eye#requests)
 
-## Resources
+## Input
 
-### Class-based
-
-Resources are implemented through __classes__, existing direct correspondence between class methods and each type of methods of HTTP requests. So, there are one class method representing each of HTTP request that one resource can handle.
+Input instances are the objects that will be used to validate data, so it is used to define a data schema, where can be found all fields that are allowed, and some properties for them. 
 
 ```javascript
-class MyResource extends Resource{
-	constructor(){
-		super(async function () {
-	            (...)
-	        });
-	}
-	static async fetch(){
-		(...)
-	}
-	static async fetchOne(){
-		(...)
-	}
-	async put(){
-		(...)
-	}
-	async patch(){
-		(...)
-	}
-	async delete(){
-		(...)
-	}
-}
-```
+let Input = ApeyEye.Input;
 
-### Static vs Instance 
-
-Attending to an object oriented aproach, there are a difference between the meaning of static methods and instance methods.
-
-#### Static Methods
-
-* Responsible for handle request that access a kind of factory where it is possible to access or insert data.
-* Each one of static methods has a direct correspondence with all HTTP methods that can be applied to urls that match with __/(_resource_name_)/__ pattern.
-* Insertion of data can be done using class constructor.
-* Although access to only one element of collection must be done through a GET HTTP request to url __/(_resource_name_)/:id/__, this request is also mapped to a static method, because it is also considered an access to the collection, with the difference that parameter ID allow to filter the results and return only the object that match with the value of it.
-
-* **Creating Objects**
-
-```javascript
-let obj = new RestaurantResource({data:{name:"restaurantName", address:"restaurantAddress"}});
- 
-curl -X POST \
-  -d '{"name":"restaurantName","address":"restaurantAddress"}'\
-  https://api.apey-eye.com/restaurant
-```
-
-* **List Objects**
-
-```javascript
-let list = RestaurantResource.fetch();
- 
-curl -X GET \
-  https://api.apey-eye.com/restaurant
-```
-
-* **Access one object**
-
-```javascript
-let list = RestaurantResource.fetchOne({id:"6507da1f954a"});
- 
-curl -X GET \
-  https://api.apey-eye.com/restaurant/6507da1f954a/
-```
-
-#### Instance Methods
-
-* Responsible for operations that act directly in the objects such as object state update or delete objects.
-
-* **Replace object**
-
-```javascript
-let obj = RestaurantResource.fetchOne({id:"6507da1f954a"});
-obj.put({data: {name:"anotherRestaurantName",address:"anotherRestaurantAddress"});
- 
-curl -X PUT \
-  -d '{"name":"anotherRestaurantName","address":"anotherRestaurantAddress"}'\
-  https://api.apey-eye.com/restaurant/6507da1f954a/
-```
-
-* **Object state update**
-
-```javascript
-let obj = RestaurantResource.fetchOne({id:"6507da1f954a"});
-obj.patch({data: {name:"anotherRestaurantName"});
- 
-curl -X PATCH \
-  -d '{"name":"anotherRestaurantName"}'\
-  https://api.apey-eye.com/restaurant/6507da1f954a/
-```
-
-* **Delete object**
-
-```javascript
-let obj = RestaurantResource.fetchOne({id:"6507da1f954a"});
-obj.delete();
- 
-curl -X DELETE \
-  https://api.apey-eye.com/restaurant/6507da1f954a/
-```
-
-### Actions
-
-Apey Eye also allows to developer to implement their own custom actions.
-
-```javascript
-class MyResource extends Resource{
-	@Action()
-	static async get_actionOne(){ (...) }
-	@Action()
-	async post_actionTwo(){ (...) }
-}
-```
-
-
-As showed in previows example, *Resource* actions must follow two requirements:
-* It is needed to use **@Action** decorator;
-* Method name must match with pattern **\<HTTP_method\>_\<action_name\>**
-
-Only when these two requirements are met the methods are treated as actions, otherwise the framework will assume them as a common auxiliar method to the class.
-
-* **Use static action**
-
-```javascript
-let result = RestaurantResource.get_actionOne();
-
-curl -X GET \
-  https://api.apey-eye.com/restaurant/actionOne/
-```
-
-* **Use instance action**
-
-```javascript
-let obj = RestaurantResource.fetchOne({id:"6507da1f954a"});
-obj.post_actionTwo();
- 
-curl -X POST \
-  https://api.apey-eye.com/restaurant/6507da1f954a/actionTwo/
-```
-
-### Decorators
-
-There are several types of decorators that can be used in order to annotate or modify _Resource_ class.
-Decorators allow to assign properties such as schemas to validate data, query parameters, output properties and also other properties related to access control like authentication and permissions.
-
-####@Name
-
-It receives a string representing an identifier for target _Resource_ in API.
-This identifier is used when the _Resource_ is added to _Router_, if no path is specified then the identifier will be used to build the path where Resource will be available.
-In a **NoBackend** approach, the Model that will be associated to the _Resource_ also will have this identifier.
-
-```javascript
-@Name("myResourceIdentifier")
-class MyResource extends Resource{}
-```
-
-####@Input
-
-It receives an _Input_ entity, where is presented the data schema that will be used to validate data received in API.
-
-```javascript
-@Input(inputObject)
-class MyResource extends Resource{}
-```
-
-**Defining an _Input_**
-
-```javascript
 let restaurantInput = new Input({
 	name:       {type: "string", required: true},
 	year:       {type: "number", valid: yearValidator},
@@ -259,112 +96,7 @@ If the value of the field represents a relation then there are other properties 
 * **inverse**: a string with the name of the field responsible for relationship in related _Model_.
 * **through**: a string with the name of the intermediate _Model_ used to make possíble a _ManyToMany_ relationship.
 
-####@Query
 
-It receives an object with properties that will be used to query database like sort, filter and pagination.
-
-* **_sort**: an array with field names that will be included in sorting and its order.
-**example:** ["name", "-description"], sort by name ascending and by description in descending order.
-* **_filter**: an object with values to filter results.
-* **_page_size**: maximum number of results that will be included in response.
-
-####@Output
-
-It receives an object with properties that responses must follow like the set of fields and related objects that would be included.
-
-* **_fields**: an array with fields names that will be included in response.
-* **_embedded**: an array with fields that must include related object.
-
-```javascript
-@Output({
-	_fields: ["name","categories"],
-	_embedded: ["categories"],
-})
-class MyResource extends Resource{}
-```
-
-####@Format
-
-It receives a render class that will be used to render all responses produced by Resource or its methods.
-
-```javascript
-@Format(JSONFormat)
-class MyResource extends Resource{}
-```
-
-**Definition of render class**
-
-It is necessary to create a new render class that inherits **BaseFormatter** and must implement **.format()** method responsible by render received data with target format.
-
-It must be assigned through **@MediaType** decorator the content-type that will be included in response headers.
-
-```javascript
-@MediaType('application/text')
-class TextFormat extends BaseFormatter{
-    static format(data){
-        return data.toString();
-    }
-}
-```
-
-####@Authentication
-
-It receives a string indicating which mechanism of authentication will be used to authenticate requests to target *Resource*.
-
-**Note:** There are some mechanisms of authentication already defined in framework like *Basic* and *Local*, however it is possible to define more custom mechanisms to use to validate requests.
-
-```javascript
-@Authentication('basic')
-class MyResource extends Resource{}
-```
-
-####@Roles
-
-It receives an array with identifiers of roles of users that are allowed to perform request to Resource.
-
-```javascript
-@Roles(['client', 'editor'])
-class MyResource extends Resource{}
-```
-
-In framework there are models that represents both roles and users and allow to make a connection between users and which roles are related to them in the system.
-
-By default, there are an hierarchical schema for roles that allow an user to access resources that are limited to other roles that are directly or indirectly related with user's role and have also an lower hierarchical level.
-
-**Exemple:**
-
-```javascript
-let roleA = {
-    id: "client",
-    parentRole : "admin"
-}
-```
-An user that are related to *"admin"* role also has access to *Resources* that are limited to *"client"* role.
-
-## Router
-
-In Apey Eye, the *Router* is the entity responsible to connect received HTTP requests *Resources** that exists in API and will handle them.
-
-The framework was designed with the purpose to be independent of the type of Router that are in use allowing to be used different kinds of *Routers* according to developer preferences.
-Thus it is possible to implement a *Router* through frameworks like Hapi, Koa, Express or others.
-
-**Note:** There are just implemented and available *Routers* based on Hapi and Koa.
-
-### Router.register
-
-The entity *Router* has an method **.register()** that allows developers to connect *Resources* to API making them available to clients.
-
-```javascript
-router.register([{
-        path: 'restaurant',
-        resource: RestaurantResource
-    },
-    {
-        path: 'address',
-        resource: AddressResource
-    }
-]);
-```
 
 
 ## Models
@@ -380,27 +112,17 @@ This is one of the components that is implemented in an independent way, allowin
 Also *Models* are implemented through classes, and there exists direct connection between method of this class and *Resource* methods.
 
 ```javascript
+let Model = ApeyEye.Model;
+
 class MyModel extends Model{
 	constructor(){
-		super(async function () {
-	            (...)
-	        });
+		super(async function () { (...) });
 	}
-	static async fetch(){
-		(...)
-	}
-	static async fetchOne(){
-		(...)
-	}
-	async put(){
-		(...)
-	}
-	async patch(){
-		(...)
-	}
-	async delete(){
-		(...)
-	}
+	static async fetch(){ (...) }
+	static async fetchOne(){ (...) }
+	async put(){ (...) }
+	async patch(){ (...) }
+	async delete(){ (...) }
 }
 ```
 
@@ -411,7 +133,6 @@ Such as in *Resources** also in *Models* is applied an object oriented approach,
 **Static Methods** intend to be the responsible methods for access and manipulation of data in a collection level, providing methods to insert new data or access data that exists in database.
 
 **Instance Methods** intend to be the responsible for operations that change the internal state of one single object in database or even for operations that deletes the objects. 
-
 
 ### Decorators
 
@@ -425,7 +146,6 @@ Such as in *Resources* also in *Models* can be applied some decorators:
 Almost all decorators have the same behavior in *Models* and in *Resources* with the exception of the **@Name**.
 Although this decorator has a similar meaning than in *Resources*, in addiction to assign an identifier to the entity has one other goal.
 It represents also the name used in database to represent the table that the *Model* will interact.
-
 
 ## Relations
 
@@ -544,6 +264,329 @@ curl -X POST \
   https://api.apey-eye.com/category
 ```
 
+## Resources
+
+### Class-based
+
+Resources are implemented through __classes__, existing direct correspondence between class methods and each type of methods of HTTP requests. So, there are one class method representing each of HTTP request that one resource can handle.
+
+```javascript
+let Resource = ApeyEye.Resource;
+
+class MyResource extends Resource{
+	constructor(){
+		super(async function () {  (...) });
+	}
+	static async fetch(){ (...) }
+	static async fetchOne(){ (...) }
+	async put(){ (...) }
+	async patch(){ (...) }
+	async delete(){ (...) }
+}
+```
+
+### Static vs Instance 
+
+Attending to an object oriented aproach, there are a difference between the meaning of static methods and instance methods.
+
+#### Static Methods
+
+* Responsible for handle request that access a kind of factory where it is possible to access or insert data.
+* Each one of static methods has a direct correspondence with all HTTP methods that can be applied to urls that match with __/(_resource_name_)/__ pattern.
+* Insertion of data can be done using class constructor.
+* Although access to only one element of collection must be done through a GET HTTP request to url __/(_resource_name_)/:id/__, this request is also mapped to a static method, because it is also considered an access to the collection, with the difference that parameter ID allow to filter the results and return only the object that match with the value of it.
+
+* **Creating Objects**
+
+```javascript
+let obj = new RestaurantResource({data:{name:"restaurantName", address:"restaurantAddress"}});
+ 
+curl -X POST \
+  -d '{"name":"restaurantName","address":"restaurantAddress"}'\
+  https://api.apey-eye.com/restaurant
+```
+
+* **List Objects**
+
+```javascript
+let list = RestaurantResource.fetch();
+ 
+curl -X GET \
+  https://api.apey-eye.com/restaurant
+```
+
+* **Access one object**
+
+```javascript
+let list = RestaurantResource.fetchOne({id:"6507da1f954a"});
+ 
+curl -X GET \
+  https://api.apey-eye.com/restaurant/6507da1f954a/
+```
+
+#### Instance Methods
+
+* Responsible for operations that act directly in the objects such as object state update or delete objects.
+
+* **Replace object**
+
+```javascript
+let obj = RestaurantResource.fetchOne({id:"6507da1f954a"});
+obj.put({data: {name:"anotherRestaurantName",address:"anotherRestaurantAddress"});
+ 
+curl -X PUT \
+  -d '{"name":"anotherRestaurantName","address":"anotherRestaurantAddress"}'\
+  https://api.apey-eye.com/restaurant/6507da1f954a/
+```
+
+* **Object state update**
+
+```javascript
+let obj = RestaurantResource.fetchOne({id:"6507da1f954a"});
+obj.patch({data: {name:"anotherRestaurantName"});
+ 
+curl -X PATCH \
+  -d '{"name":"anotherRestaurantName"}'\
+  https://api.apey-eye.com/restaurant/6507da1f954a/
+```
+
+* **Delete object**
+
+```javascript
+let obj = RestaurantResource.fetchOne({id:"6507da1f954a"});
+obj.delete();
+ 
+curl -X DELETE \
+  https://api.apey-eye.com/restaurant/6507da1f954a/
+```
+
+### Actions
+
+Apey Eye also allows to developer to implement their own custom actions.
+
+```javascript
+let Resource = ApeyEye.Resource,
+    Action = ApeyEye.Annotations.Action;
+    
+class MyResource extends Resource{
+	@Action()
+	static async get_actionOne(){ (...) }
+	@Action()
+	async post_actionTwo(){ (...) }
+}
+```
+
+
+As showed in previows example, *Resource* actions must follow two requirements:
+* It is needed to use **@Action** decorator;
+* Method name must match with pattern **\<HTTP_method\>_\<action_name\>**
+
+Only when these two requirements are met the methods are treated as actions, otherwise the framework will assume them as a common auxiliar method to the class.
+
+* **Use static action**
+
+```javascript
+let result = RestaurantResource.get_actionOne();
+
+curl -X GET \
+  https://api.apey-eye.com/restaurant/actionOne/
+```
+
+* **Use instance action**
+
+```javascript
+let obj = RestaurantResource.fetchOne({id:"6507da1f954a"});
+obj.post_actionTwo();
+ 
+curl -X POST \
+  https://api.apey-eye.com/restaurant/6507da1f954a/actionTwo/
+```
+
+### Decorators
+
+There are several types of decorators that can be used in order to annotate or modify _Resource_ class.
+Decorators allow to assign properties such as schemas to validate data, query parameters, output properties and also other properties related to access control like authentication and permissions.
+
+Available decorators in ApeyEye can be accessed through
+
+```javascript
+let Annotations = ApeyEye.Annotations;
+```
+
+####@Name
+
+It receives a string representing an identifier for target _Resource_ in API.
+This identifier is used when the _Resource_ is added to _Router_, if no path is specified then the identifier will be used to build the path where Resource will be available.
+In a **NoBackend** approach, the Model that will be associated to the _Resource_ also will have this identifier.
+
+```javascript
+let Name = Annotation.Name;
+
+@Name("myResourceIdentifier")
+class MyResource extends Resource{}
+```
+
+####@Input
+
+It receives an _Input_ entity, where is presented the data schema that will be used to validate data received in API.
+
+```javascript
+let Name = Annotation.Input;
+
+@Input(inputObject)
+class MyResource extends Resource{}
+```
+
+####@Query
+
+It receives an object with properties that will be used to query database like sort, filter and pagination.
+
+* **_sort**: an array with field names that will be included in sorting and its order.
+**example:** ["name", "-description"], sort by name ascending and by description in descending order.
+* **_filter**: an object with values to filter results.
+* **_page_size**: maximum number of results that will be included in response.
+
+```javascript
+let Query = Annotations.Query;
+
+@Query({ 
+	_sort: ["-name","address"],
+	_filter: {type : "grill"}, 
+	_page_size: 15
+})
+class MyResource extends Resource{}
+```
+
+####@Output
+
+It receives an object with properties that responses must follow like the set of fields and related objects that would be included.
+
+* **_fields**: an array with fields names that will be included in response.
+* **_embedded**: an array with fields that must include related object.
+
+```javascript
+let Output = Annotations.Output;
+
+@Output({
+	_fields: ["name","categories"],
+	_embedded: ["categories"],
+})
+class MyResource extends Resource{}
+```
+
+####@Format
+
+It receives a render class that will be used to render all responses produced by Resource or its methods.
+
+```javascript
+let Format = Annotations.Format,
+    JSONFormat = ApeyEye.Formatters.JSONFormatter;
+
+@Format(JSONFormat)
+class MyResource extends Resource{}
+```
+
+**Definition of render class**
+
+It is necessary to create a new render class that inherits **BaseFormatter** and must implement **.format()** method responsible by render received data with target format.
+
+It must be assigned through **@MediaType** decorator the content-type that will be included in response headers.
+
+```javascript
+let MediaType = Annotations.MediaType,
+    BaseFormatter = ApeyEye.Formatters.BaseFormatter;
+
+@MediaType('application/text')
+class TextFormat extends BaseFormatter{
+    static format(data){
+        return data.toString();
+    }
+}
+```
+
+####@Authentication
+
+It receives a string indicating which mechanism of authentication will be used to authenticate requests to target *Resource*.
+
+**Note:** There are some mechanisms of authentication already defined in framework like *Basic* and *Local*, however it is possible to define more custom mechanisms to use to validate requests.
+
+```javascript
+let Authentication = Annotations.Authentication;
+
+@Authentication('basic')
+class MyResource extends Resource{}
+```
+
+####@Roles
+
+It receives an array with identifiers of roles of users that are allowed to perform request to Resource.
+
+```javascript
+let Roles = Annotations.Roles;
+
+@Roles(['client', 'editor'])
+class MyResource extends Resource{}
+```
+
+In framework there are models that represents both roles and users and allow to make a connection between users and which roles are related to them in the system.
+
+By default, there are an hierarchical schema for roles that allow an user to access resources that are limited to other roles that are directly or indirectly related with user's role and have also an lower hierarchical level.
+
+**Exemple:**
+
+```javascript
+let roleA = {
+    id: "client",
+    parentRole : "admin"
+}
+```
+An user that are related to *"admin"* role also has access to *Resources* that are limited to *"client"* role.
+
+####@Documentation
+
+It receives an object with data used to document the *Resource* which was associated. 
+The main fields that have importance in ApeyEye documentation are *title* and *description*. These are the only ones that will be associated to Swagger documentation, although other data that developer puts on this object can access through HTTP OPTIONS documentation.
+
+```javascript
+let Documentation = Annotations.Documentation;
+
+@Documentation({
+	title : "Resource title", 12
+	description : "Resource description"
+})
+class MyResource extends Resource{}
+```
+
+## Router
+
+In Apey Eye, the *Router* is the entity responsible to connect received HTTP requests *Resources** that exists in API and will handle them.
+
+The framework was designed with the purpose to be independent of the type of Router that are in use allowing to be used different kinds of *Routers* according to developer preferences.
+Thus it is possible to implement a *Router* through frameworks like Hapi, Koa, Express or others.
+
+**Note:** There are just implemented and available *Routers* based on Hapi and Koa.
+
+### Use Router
+
+The entity *Router* has an method **.register()** that allows developers to connect *Resources* to API making them available to clients.
+To regist a new *Resource* to API you can indicate a path where it will be available, or otherwise it will be available in path registered with *@Name* decorator.
+
+
+```javascript
+let router = ApeyEye.HapiRouter(); //or ApeyEye.KoaRouter();
+
+router.register([{
+	resource: RestaurantResource
+    },
+    {
+        path: 'address',
+        resource: AddressResource
+    }
+]);
+
+router.start({ port : 8080 });
+```
+
 ## GenericResource
 
 Besides the possibility of defining a *Resource* class in which the developer needs to build its own implementation, the developer can also use a Generic Resource class where are adopted the default implementation for each method.
@@ -579,15 +622,24 @@ class MyResource extends GenericResource {}
 It receives an array with identifiers of the methods that are allowed to use by clients of API.
 
 ```javascript
+let GenericResource = ApeyEye.GenericResource,
+    Methods = ApeyEye.Annotations.Methods;
+
 @Methods(['constructor', 'static.fetch'])
 class MyResource extends GenericResource{}
 ```
 
 ## GenericRouter
 
-Instead of use a common *Router*, in which is necessary to register all *Resources* that will be available by API, the framework still offer the possibility of use a *GenericRouter* 
+Instead of use a common *Router*, in which is necessary to register all *Resources* that will be available by API, the framework still offer the possibility of use a *GenericRouter*.
 
-This kind of *Router*, besides to allow the registration of Resources in a programmatic way also admits the development of applications following a **NoBackend** approach.
+```javascript
+let genericRouter = ApeyEye.HapiGenericRouter(); // or ApeyEye.KoaGenericRouter();
+
+genericRouter.start({ port : 8080 });
+```
+
+This kind of *Router*, besides to allow the registration of *Resources* in a programmatic way also admits the development of applications following a **NoBackend** approach.
 
 So, it is possible that Resources are created dynamically when the clients of API make requests to one endpoint that has no *Resource* allocated.
 
