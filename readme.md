@@ -53,8 +53,8 @@ Thus, this still allows them to be more easily testable programmatically.
 * [Models](https://github.com/glazedSolutions/apey-eye#models)
 * [Relations](https://github.com/glazedSolutions/apey-eye#relations)
 * [Resources](https://github.com/glazedSolutions/apey-eye#resources)
-* [Router](https://github.com/glazedSolutions/apey-eye#router)
 * [GenericResource](https://github.com/glazedSolutions/apey-eye#genericresource)
+* [Router](https://github.com/glazedSolutions/apey-eye#router)
 * [GenericRouter](https://github.com/glazedSolutions/apey-eye#genericrouter)
 * [Requests](https://github.com/glazedSolutions/apey-eye#requests)
 
@@ -557,36 +557,6 @@ let Documentation = Annotations.Documentation;
 class MyResource extends Resource{}
 ```
 
-## Router
-
-In Apey Eye, the *Router* is the entity responsible to connect received HTTP requests *Resources** that exists in API and will handle them.
-
-The framework was designed with the purpose to be independent of the type of Router that are in use allowing to be used different kinds of *Routers* according to developer preferences.
-Thus it is possible to implement a *Router* through frameworks like Hapi, Koa, Express or others.
-
-**Note:** There are just implemented and available *Routers* based on Hapi and Koa.
-
-### Use Router
-
-The entity *Router* has an method **.register()** that allows developers to connect *Resources* to API making them available to clients.
-To regist a new *Resource* to API you can indicate a path where it will be available, or otherwise it will be available in path registered with *@Name* decorator.
-
-
-```javascript
-let router = ApeyEye.HapiRouter(); //or ApeyEye.KoaRouter();
-
-router.register([{
-	resource: RestaurantResource
-    },
-    {
-        path: 'address',
-        resource: AddressResource
-    }
-]);
-
-router.start({ port : 8080 });
-```
-
 ## GenericResource
 
 Besides the possibility of defining a *Resource* class in which the developer needs to build its own implementation, the developer can also use a Generic Resource class where are adopted the default implementation for each method.
@@ -629,6 +599,36 @@ let GenericResource = ApeyEye.GenericResource,
 class MyResource extends GenericResource{}
 ```
 
+## Router
+
+In Apey Eye, the *Router* is the entity responsible to connect received HTTP requests *Resources** that exists in API and will handle them.
+
+The framework was designed with the purpose to be independent of the type of Router that are in use allowing to be used different kinds of *Routers* according to developer preferences.
+Thus it is possible to implement a *Router* through frameworks like Hapi, Koa, Express or others.
+
+**Note:** There are just implemented and available *Routers* based on Hapi and Koa.
+
+### Use Router
+
+The entity *Router* has an method **.register()** that allows developers to connect *Resources* to API making them available to clients.
+To regist a new *Resource* to API you can indicate a path where it will be available, or otherwise it will be available in path registered with *@Name* decorator.
+
+
+```javascript
+let router = ApeyEye.HapiRouter(); //or ApeyEye.KoaRouter();
+
+router.register([{
+	resource: RestaurantResource
+    },
+    {
+        path: 'address',
+        resource: AddressResource
+    }
+]);
+
+router.start({ port : 8080 });
+```
+
 ## GenericRouter
 
 Instead of use a common *Router*, in which is necessary to register all *Resources* that will be available by API, the framework still offer the possibility of use a *GenericRouter*.
@@ -656,6 +656,10 @@ If you use a *Router* and haven't been registered no *Resources* for the path _"
 If you use a *GenericRouter* would be **Status: 200 OK**, and a new object would be created.
 
 ## Requests
+
+Although many of the following properties can be associated as default programmatically, clients can send to API other properties that will be applied in requests.
+
+So it is possible to use query params to send properties like *filters*, *sort*, *fields*, *embedded*, *page* and *page_size* and *format*.
 
 ```
 http://api.path/
