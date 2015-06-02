@@ -168,14 +168,36 @@ Apey Eye also allows to developer to implement their own custom actions.
 ```javascript
 class MyResource extends Resource{
 	@Action()
-	static async get_schema(){
-		return MyResource.getSchema();
-	}
+	static async get_actionOne(){ (...) }
 	@Action()
-	static async post_schema(){
-		return MyResource.getSchema();
-	}
+	async post_actionTwo(){ (...) }
 }
+```
+
+
+As showed in previows example, *Resource* actions must follow two requirements:
+* It is needed to use **@Action** decorator;
+* Method name must match with pattern **\<HTTP_method\>_\<action_name\>**
+
+Only when these two requirements are met the methods are treated as actions, otherwise the framework will assume them as a common auxiliar method to the class.
+
+* **Use static action**
+
+```javascript
+let result = RestaurantResource.get_actionOne();
+
+curl -X GET \
+  https://api.apey-eye.com/restaurant/actionOne/
+```
+
+* **Use instance action**
+
+```javascript
+let obj = RestaurantResource.fetchOne({id:"6507da1f954a"});
+obj.post_actionTwo();
+ 
+curl -X POST \
+  https://api.apey-eye.com/restaurant/6507da1f954a/actionTwo/
 ```
 
 ### Decorators
