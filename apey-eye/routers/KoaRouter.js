@@ -3,7 +3,6 @@
  */
 import BaseRouter from './../BaseRouter.js';
 import Resource from './../Resource';
-import * as Annotations from './../Annotations';
 import * as Exceptions from './../Exceptions';
 import HTTPCodes from './../HTTPCodes';
 import Auth from './../Auth.js';

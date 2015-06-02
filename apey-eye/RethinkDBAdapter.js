@@ -2,7 +2,6 @@
  * Created by Filipe on 05/03/2015.
  */
 import rethink from 'rethinkdbdash';
-import * as Annotations from './Annotations';
 import DatabaseConfig from './config/database.js';
 
 var r = rethink({

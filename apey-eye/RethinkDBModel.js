@@ -5,7 +5,6 @@
 
 import Model from './Model';
 import RethinkDBAdapter from './RethinkDBAdapter';
-import * as DefaultProperties from './DefaultProperties';
 import * as Exceptions from './Exceptions';
 import _  from "underscore";
 

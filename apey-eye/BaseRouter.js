@@ -4,7 +4,7 @@
 import * as Exceptions from './Exceptions.js';
 import Resource from './Resource.js';
 import GenericResource from './GenericResource.js';
-import * as Annotations from './Annotations.js';
+import * as Decorators from './Decorators.js';
 import RoleModel from './models/RoleModel.js';
 import RouterConfig from './config/router.js';
 
@@ -320,7 +320,7 @@ class BaseRouter {
     }
 
     static createGenericResourceClass(resourceName) {
-        @Annotations.Name(resourceName)
+        @Decorators.Name(resourceName)
         class NoBackendResource extends GenericResource {
         }
         NoBackendResource.noBackend = true;

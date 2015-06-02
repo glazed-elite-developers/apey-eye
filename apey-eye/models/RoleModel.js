@@ -3,7 +3,7 @@
  */
 import Database from './../RethinkDBAdapter.js'
 import RethinkDBModel from './../RethinkDBModel.js'
-import * as Annotations from './../Annotations.js';
+import * as Decorators from './../Decorators.js';
 import Input from './../Input.js';
 
 let roleInput = new Input({
@@ -12,8 +12,8 @@ let roleInput = new Input({
     parentRole: {type: "reference", model: "role"}
 });
 
-@Annotations.Input(roleInput)
-@Annotations.Name('role')
+@Decorators.Input(roleInput)
+@Decorators.Name('role')
 class RoleModel extends RethinkDBModel {
 }
 

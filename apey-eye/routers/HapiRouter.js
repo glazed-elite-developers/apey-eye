@@ -9,7 +9,7 @@ import BaseRouter from './../BaseRouter.js';
 import Resource from './../Resource';
 import HTTPCodes from './../HTTPCodes';
 import Auth from './../Auth.js';
-import * as Annotations from './../Annotations';
+import * as Decorators from './../Decorators';
 import * as Exceptions from './../Exceptions';
 import * as DefaultProperties from './../DefaultProperties.js';
 

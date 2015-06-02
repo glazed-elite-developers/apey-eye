@@ -20,7 +20,8 @@
     "rethinkdb",
     "web",
     "orm",
-    "decorators"
+    "decorators",
+    "swagger"
   ],
   "bugs": {
     "url": "https://github.com/glazedSolutions/apey-eye/issues"

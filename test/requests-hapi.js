@@ -18,7 +18,7 @@ let HapiRouter = ApeyEye.HapiRouter;
 let HapiGenericRouter = ApeyEye.HapiGenericRouter;
 let KoaRouter = ApeyEye.KoaRouter;
 let BaseRouter = ApeyEye.BaseRouter;
-let Annotations = ApeyEye.Annotations;
+let Decorators = ApeyEye.Decorators;
 let GenericResource = ApeyEye.GenericResource;
 let RethinkDBModel = ApeyEye.RethinkDBModel;
 let Input = ApeyEye.Input;
@@ -49,36 +49,36 @@ describe("hapi", () => {
             phone: {type: "number"}
         });
 
-        @Annotations.Input(restaurantInput)
-        @Annotations.Name("restaurant")
-        @Annotations.Query({
+        @Decorators.Input(restaurantInput)
+        @Decorators.Name("restaurant")
+        @Decorators.Query({
             _sort: ['name', '-address'],
             _page_size: 10
         })
         class RestaurantModel extends RethinkDBModel {
         }
 
-        @Annotations.Model(RestaurantModel)
-        @Annotations.Methods(['static.fetch', 'constructor', 'static.fetchOne', 'delete'])
+        @Decorators.Model(RestaurantModel)
+        @Decorators.Methods(['static.fetch', 'constructor', 'static.fetchOne', 'delete'])
         class RestaurantResource extends GenericResource {
-            @Annotations.Action()
+            @Decorators.Action()
             static async get_first() {
                 let data = {name: "First Restaurant"};
                 return data;
             }
 
-            @Annotations.Action()
+            @Decorators.Action()
             async get_name() {
                 let obj = this.obj;
                 this.obj = {name: obj.name};
                 return this.obj;
             }
 
-            @Annotations.Authentication('basic')
+            @Decorators.Authentication('basic')
             async delete(options) {
                 return await super.delete(options);
             }
-            @Annotations.Authentication('local')
+            @Decorators.Authentication('local')
             static async delete(options) {
                 return true;
             }

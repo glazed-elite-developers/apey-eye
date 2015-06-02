@@ -3,7 +3,7 @@
  */
 
 import BaseClass from './BaseClass';
-import * as Annotations from './Annotations';
+import * as Decorators from './Decorators';
 import * as Exceptions from './Exceptions.js';
 import * as DefaultProperties from './DefaultProperties.js';
 import * as Formatters from './Formatters.js';
@@ -192,26 +192,26 @@ class Resource extends BaseClass {
     }
 
     static getMethods() {
-        return Annotations.getProperty(this, "methods");
+        return Decorators.getProperty(this, "methods");
     }
 
     static getFormat() {
-        return Annotations.getProperty(this, "format");
+        return Decorators.getProperty(this, "format");
     }
 
     static getAuthentication(method) {
-        return Annotations.getProperty(this, "authentication", method);
+        return Decorators.getProperty(this, "authentication", method);
     }
 
     static getAllowedRoles(method) {
-        return Annotations.getProperty(this, "roles", method);
+        return Decorators.getProperty(this, "roles", method);
     }
 
     static getModel(method) {
-        return Annotations.getProperty(this, "model", method);
+        return Decorators.getProperty(this, "model", method);
     }
     static getDocumentation(method) {
-        return Annotations.getProperty(this, "documentation", method);
+        return Decorators.getProperty(this, "documentation", method);
     }
 
     static _getActionMethod(options) {
@@ -401,15 +401,15 @@ class Resource extends BaseClass {
                 generatedModel;
 
             if (input) {
-                @Annotations.Name(resourceName)
-                @Annotations.Input(input)
+                @Decorators.Name(resourceName)
+                @Decorators.Input(input)
                 class GeneratedModel extends RethinkDBModel {
                 }
 
                 generatedModel = GeneratedModel;
             }
             else {
-                @Annotations.Name(resourceName)
+                @Decorators.Name(resourceName)
                 class GeneratedModel extends RethinkDBModel {
                 }
                 generatedModel = GeneratedModel;

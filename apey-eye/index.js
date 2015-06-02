@@ -1,7 +1,7 @@
 /**
  * Created by Filipe on 26/05/2015.
  */
-import * as Annotations from './Annotations';
+import * as Decorators from './Decorators';
 
 import Model from './Model.js';
 import RethinkDBModel from './RethinkDBModel.js';
@@ -26,7 +26,7 @@ import HapiGenericRouter from './routers/HapiGenericRouter.js';
 import HapiRouter from './routers/HapiRouter.js';
 
 export default {
-    Annotations: Annotations,
+    Decorators: Decorators,
     Model: Model,
     RethinkDBModel: RethinkDBModel,
     RethinkDBAdapter: RethinkDBAdapter,

@@ -3,8 +3,6 @@
  */
 import HapiRouter from './HapiRouter.js';
 import * as Exceptions from './../Exceptions.js';
-import HTTPCodes from './../HTTPCodes';
-import Boom from 'Boom';
 import Joi from 'hapi/node_modules/joi';
 import RouterConfig from '../config/router.js';
 import * as DefaultProperties from './../DefaultProperties.js';

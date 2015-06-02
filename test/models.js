@@ -11,7 +11,7 @@ import ApeyEye from '../apey-eye';
 
 let Model = ApeyEye.Model;
 let RethinkDBModel = ApeyEye.RethinkDBModel;
-let Annotations = ApeyEye.Annotations;
+let Decorators = ApeyEye.Decorators;
 let Input = ApeyEye.Input;
 
 chai.use(chaiAsPromised);
@@ -51,8 +51,8 @@ describe('Models', function () {
     describe('Model Declaration', function () {
         it('should access annotations properties from models', function () {
 
-            @Annotations.Input(restaurantInput)
-            @Annotations.Name("dataTableName")
+            @Decorators.Input(restaurantInput)
+            @Decorators.Name("dataTableName")
             class TestModel extends Model {
             }
 
@@ -71,10 +71,10 @@ describe('Models', function () {
         });
         it('shouln\'t have the same properties in methods and in class', function () {
 
-            @Annotations.Input(restaurantInput)
-            @Annotations.Name("dataTableName")
+            @Decorators.Input(restaurantInput)
+            @Decorators.Name("dataTableName")
             class TestModel extends Model {
-                @Annotations.Input(restaurantInput2)
+                @Decorators.Input(restaurantInput2)
                     static
 
                 list() {
@@ -83,7 +83,7 @@ describe('Models', function () {
                 static post() {
                 }
 
-                @Annotations.Input(restaurantInput)
+                @Decorators.Input(restaurantInput)
                     static
 
                 get() {
@@ -106,14 +106,14 @@ describe('Models', function () {
 
         var TestModel;
         before(function (done) {
-            @Annotations.Input(restaurantInput)
-            @Annotations.Name("restaurant")
-            @Annotations.Query({
+            @Decorators.Input(restaurantInput)
+            @Decorators.Name("restaurant")
+            @Decorators.Query({
                 _sort: ['name', '-address'],
                 _filter: {name: "name", phone: 20},
                 _page_size: 10
             })
-            @Annotations.Output({
+            @Decorators.Output({
                 _fields: ['id', 'name', 'address', 'phone', 'date'],
                 _embedded: ['schedule', 'products']
             })
@@ -149,13 +149,13 @@ describe('Models', function () {
         });
         it('Model.joinRequest properties should join model properties with request properties', function () {
 
-            @Annotations.Input(restaurantInput)
-            @Annotations.Name("restaurant")
-            @Annotations.Query({
+            @Decorators.Input(restaurantInput)
+            @Decorators.Name("restaurant")
+            @Decorators.Query({
                 _filter: {address: "Rua Sousa Aroso"},
                 _sort: ['name', '-address']
             })
-            @Annotations.Output({
+            @Decorators.Output({
                 _embedded: ['schedule', 'products']
             })
             class TestModel extends Model {

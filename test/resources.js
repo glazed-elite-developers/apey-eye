@@ -15,7 +15,7 @@ let RethinkDBModel = ApeyEye.RethinkDBModel;
 let Resource = ApeyEye.Resource;
 let GenericResource = ApeyEye.GenericResource;
 let Input = ApeyEye.Input;
-let Annotations = ApeyEye.Annotations;
+let Decorators = ApeyEye.Decorators;
 let Formatters = ApeyEye.Formatters;
 
 chai.use(chaiAsPromised);
@@ -43,7 +43,7 @@ describe('Resources', function () {
                 language: {type: "string", choices: ["PT", "EN"]}
             });
 
-            @Annotations.Input(restaurantInput)
+            @Decorators.Input(restaurantInput)
             class RestaurantModelClass extends Model {
             }
             ;
@@ -58,27 +58,27 @@ describe('Resources', function () {
 
         it('Test Valid Input Resource declaration', function () {
             expect(function () {
-                @Annotations.Input()
+                @Decorators.Input()
                 class MyResource extends Resource {
                 }
             }).to.throw(Error);
             expect(function () {
-                @Annotations.Input(123)
+                @Decorators.Input(123)
                 class MyResource extends Resource {
                 }
             }).to.throw(Error);
             expect(function () {
-                @Annotations.Input("inputString")
+                @Decorators.Input("inputString")
                 class MyResource extends Resource {
                 }
             }).to.throw(Error);
             expect(function () {
-                @Annotations.Input({name: {type: "string"}})
+                @Decorators.Input({name: {type: "string"}})
                 class MyResource extends Resource {
                 }
             }).to.throw(Error);
             expect(function () {
-                @Annotations.Input(restaurantInput)
+                @Decorators.Input(restaurantInput)
                 class MyResource extends Resource {
                 }
             }).to.not.throw();
@@ -86,172 +86,172 @@ describe('Resources', function () {
         })
         it('Test Valid Name Resource declaration', function () {
             expect(function () {
-                @Annotations.Name()
+                @Decorators.Name()
                 class MyResource extends Resource {
                 }
             }).to.throw(Error);
             expect(function () {
-                @Annotations.Name(123)
+                @Decorators.Name(123)
                 class MyResource extends Resource {
                 }
             }).to.throw(Error);
             expect(function () {
-                @Annotations.Name("inputString")
+                @Decorators.Name("inputString")
                 class MyResource extends Resource {
                 }
             }).to.not.throw(Error);
             expect(function () {
-                @Annotations.Name({name: "ResourceName"})
+                @Decorators.Name({name: "ResourceName"})
                 class MyResource extends Resource {
                 }
             }).to.throw(Error);
         })
         it('Test Valid Query Resource declaration', function () {
             expect(function () {
-                @Annotations.Query()
+                @Decorators.Query()
                 class MyResource extends Resource {
                 }
             }).to.throw(Error);
             expect(function () {
-                @Annotations.Query(123)
+                @Decorators.Query(123)
                 class MyResource extends Resource {
                 }
             }).to.throw(Error);
             expect(function () {
-                @Annotations.Query("inputString")
+                @Decorators.Query("inputString")
                 class MyResource extends Resource {
                 }
             }).to.throw(Error);
             expect(function () {
-                @Annotations.Query({name: "ResourceName"})
-                class MyResource extends Resource {
-                }
-            }).to.throw(Error);
-
-            expect(function () {
-                @Annotations.Query({_sort: ["name", 123]})
+                @Decorators.Query({name: "ResourceName"})
                 class MyResource extends Resource {
                 }
             }).to.throw(Error);
 
             expect(function () {
-                @Annotations.Query({_sort: "name"})
+                @Decorators.Query({_sort: ["name", 123]})
                 class MyResource extends Resource {
                 }
             }).to.throw(Error);
 
             expect(function () {
-                @Annotations.Query({_sort: ["-name"]})
+                @Decorators.Query({_sort: "name"})
+                class MyResource extends Resource {
+                }
+            }).to.throw(Error);
+
+            expect(function () {
+                @Decorators.Query({_sort: ["-name"]})
                 class MyResource extends Resource {
                 }
             }).to.not.throw(Error);
             expect(function () {
-                @Annotations.Query({_page_size: ["-name"]})
+                @Decorators.Query({_page_size: ["-name"]})
                 class MyResource extends Resource {
                 }
             }).to.throw(Error);
             expect(function () {
-                @Annotations.Query({_page_size: "1"})
+                @Decorators.Query({_page_size: "1"})
                 class MyResource extends Resource {
                 }
             }).to.throw(Error);
             expect(function () {
-                @Annotations.Query({_page_size: 1.1})
+                @Decorators.Query({_page_size: 1.1})
                 class MyResource extends Resource {
                 }
             }).to.throw(Error);
             expect(function () {
-                @Annotations.Query({_page_size: 1})
+                @Decorators.Query({_page_size: 1})
                 class MyResource extends Resource {
                 }
             }).to.not.throw(Error);
 
             expect(function () {
-                @Annotations.Query({_filter: 1})
+                @Decorators.Query({_filter: 1})
                 class MyResource extends Resource {
                 }
             }).to.throw(Error);
 
             expect(function () {
-                @Annotations.Query({_filter: "string"})
+                @Decorators.Query({_filter: "string"})
                 class MyResource extends Resource {
                 }
             }).to.throw(Error);
 
             expect(function () {
-                @Annotations.Query({_filter: ["name"]})
+                @Decorators.Query({_filter: ["name"]})
                 class MyResource extends Resource {
                 }
             }).to.throw(Error);
             expect(function () {
-                @Annotations.Query({_filter: {name: "123"}})
+                @Decorators.Query({_filter: {name: "123"}})
                 class MyResource extends Resource {
                 }
             }).to.not.throw(Error);
         });
         it('Test Valid Output Resource declaration', function () {
             expect(function () {
-                @Annotations.Output()
+                @Decorators.Output()
                 class MyResource extends Resource {
                 }
             }).to.throw(Error);
             expect(function () {
-                @Annotations.Output(123)
+                @Decorators.Output(123)
                 class MyResource extends Resource {
                 }
             }).to.throw(Error);
             expect(function () {
-                @Annotations.Output("invalidoutput")
+                @Decorators.Output("invalidoutput")
                 class MyResource extends Resource {
                 }
             }).to.throw(Error);
             expect(function () {
-                @Annotations.Output({name: "123"})
+                @Decorators.Output({name: "123"})
                 class MyResource extends Resource {
                 }
             }).to.throw(Error);
             expect(function () {
-                @Annotations.Output(["name", "categories"])
+                @Decorators.Output(["name", "categories"])
                 class MyResource extends Resource {
                 }
             }).to.throw(Error);
             expect(function () {
-                @Annotations.Output({
+                @Decorators.Output({
                     _fields: "name"
                 })
                 class MyResource extends Resource {
                 }
             }).to.throw(Error);
             expect(function () {
-                @Annotations.Output({
+                @Decorators.Output({
                     _fields: ["name", 123]
                 })
                 class MyResource extends Resource {
                 }
             }).to.throw(Error);
             expect(function () {
-                @Annotations.Output({
+                @Decorators.Output({
                     _fields: ["name", "categories"]
                 })
                 class MyResource extends Resource {
                 }
             }).to.not.throw(Error);
             expect(function () {
-                @Annotations.Output({
+                @Decorators.Output({
                     _embedded: ["name", 123]
                 })
                 class MyResource extends Resource {
                 }
             }).to.throw(Error);
             expect(function () {
-                @Annotations.Output({
+                @Decorators.Output({
                     _embedded: "name"
                 })
                 class MyResource extends Resource {
                 }
             }).to.throw(Error);
             expect(function () {
-                @Annotations.Output({
+                @Decorators.Output({
                     _embedded: ["name", "categories"]
                 })
                 class MyResource extends Resource {
@@ -260,140 +260,140 @@ describe('Resources', function () {
         });
         it('Test Valid Output Resource declaration', function () {
             expect(function () {
-                @Annotations.Format()
+                @Decorators.Format()
                 class MyResource extends Resource {
                 }
             }).to.throw(Error);
             expect(function () {
-                @Annotations.Format(123)
+                @Decorators.Format(123)
                 class MyResource extends Resource {
                 }
             }).to.throw(Error);
             expect(function () {
-                @Annotations.Format("123")
+                @Decorators.Format("123")
                 class MyResource extends Resource {
                 }
             }).to.throw(Error);
             expect(function () {
-                @Annotations.Format([Formatters.JSONFormat])
+                @Decorators.Format([Formatters.JSONFormat])
                 class MyResource extends Resource {
                 }
             }).to.throw(Error);
             expect(function () {
-                @Annotations.Format(Formatters.JSONFormat)
+                @Decorators.Format(Formatters.JSONFormat)
                 class MyResource extends Resource {
                 }
             }).to.not.throw(Error);
         });
         it('Test Valid Authentication Resource declaration', function () {
             expect(function () {
-                @Annotations.Authentication()
+                @Decorators.Authentication()
                 class MyResource extends Resource {
                 }
             }).to.not.throw(Error);
             expect(function () {
-                @Annotations.Authentication(123)
+                @Decorators.Authentication(123)
                 class MyResource extends Resource {
                 }
             }).to.throw(Error);
             expect(function () {
-                @Annotations.Authentication("123")
+                @Decorators.Authentication("123")
                 class MyResource extends Resource {
                 }
             }).to.not.throw(Error);
         });
         it('Test Valid  Roles Resource declaration', function () {
             expect(function () {
-                @Annotations.Roles()
+                @Decorators.Roles()
                 class MyResource extends Resource {
                 }
             }).to.not.throw(Error);
             expect(function () {
-                @Annotations.Roles(123)
+                @Decorators.Roles(123)
                 class MyResource extends Resource {
                 }
             }).to.throw(Error);
             expect(function () {
-                @Annotations.Roles("123")
+                @Decorators.Roles("123")
                 class MyResource extends Resource {
                 }
             }).to.throw(Error);
             expect(function () {
-                @Annotations.Roles({role: "client"})
+                @Decorators.Roles({role: "client"})
                 class MyResource extends Resource {
                 }
             }).to.throw(Error);
             expect(function () {
-                @Annotations.Roles([])
+                @Decorators.Roles([])
                 class MyResource extends Resource {
                 }
             }).to.not.throw(Error);
             expect(function () {
-                @Annotations.Roles(['client', 'admin'])
+                @Decorators.Roles(['client', 'admin'])
                 class MyResource extends Resource {
                 }
             }).to.not.throw(Error);
             expect(function () {
-                @Annotations.Roles(['client', 123])
+                @Decorators.Roles(['client', 123])
                 class MyResource extends Resource {
                 }
             }).to.throw(Error);
         });
         it('Test Valid  Model Resource declaration', function () {
             expect(function () {
-                @Annotations.Model()
+                @Decorators.Model()
                 class MyResource extends GenericResource {
                 }
             }).to.throw(Error);
             expect(function () {
-                @Annotations.Model(123)
+                @Decorators.Model(123)
                 class MyResource extends GenericResource {
                 }
             }).to.throw(Error);
             expect(function () {
-                @Annotations.Model("modelString")
+                @Decorators.Model("modelString")
                 class MyResource extends GenericResource {
                 }
             }).to.throw(Error);
             expect(function () {
-                @Annotations.Model({model: RestaurantModel})
+                @Decorators.Model({model: RestaurantModel})
                 class MyResource extends GenericResource {
                 }
             }).to.throw(Error);
             expect(function () {
-                @Annotations.Model(RestaurantModel)
+                @Decorators.Model(RestaurantModel)
                 class MyResource extends GenericResource {
                 }
             }).to.not.throw(Error);
         });
         it('Test Valid  Methods Resource declaration', function () {
             expect(function () {
-                @Annotations.Methods()
+                @Decorators.Methods()
                 class MyResource extends GenericResource {
                 }
             }).to.not.throw(Error);
             expect(function () {
-                @Annotations.Methods(123)
+                @Decorators.Methods(123)
                 class MyResource extends GenericResource {
                 }
             }).to.throw(Error);
             expect(function () {
-                @Annotations.Methods("123")
+                @Decorators.Methods("123")
                 class MyResource extends GenericResource {
                 }
             }).to.throw(Error);
             expect(function () {
-                @Annotations.Methods({methods: ["get", "fetch"]})
+                @Decorators.Methods({methods: ["get", "fetch"]})
                 class MyResource extends GenericResource {
                 }
             }).to.throw(Error);
             expect(function () {
-                @Annotations.Methods(["get", 123])
+                @Decorators.Methods(["get", 123])
                 class MyResource extends GenericResource {
                 }
             }).to.throw(Error);
             expect(function () {
-                @Annotations.Methods(["constructor", "static.fetch"])
+                @Decorators.Methods(["constructor", "static.fetch"])
                 class MyResource extends GenericResource {
                 }
             }).to.not.throw(Error);
@@ -416,14 +416,14 @@ describe('Resources', function () {
                 language: {type: "string", choices: ["PT", "EN"]}
             });
 
-            @Annotations.Input(restaurantInput)
-            @Annotations.Name("restaurant")
-            @Annotations.Query({
+            @Decorators.Input(restaurantInput)
+            @Decorators.Name("restaurant")
+            @Decorators.Query({
                 _sort: ['name', '-address'],
                 _filter: {name: "name", phone: 20},
                 _page_size: 10
             })
-            @Annotations.Output({
+            @Decorators.Output({
                 _fields: ['id', 'name', 'address', 'phone', 'date'],
                 _embedded: ['schedule', 'products']
             })
@@ -432,8 +432,8 @@ describe('Resources', function () {
 
             TestModel = TestModelClass;
 
-            @Annotations.Model(TestModel)
-            @Annotations.Format(Formatters.JSONFormat)
+            @Decorators.Model(TestModel)
+            @Decorators.Format(Formatters.JSONFormat)
             class TestResourceClass extends GenericResource {
             }
 
@@ -609,12 +609,12 @@ describe('Resources', function () {
                 phone: {type: "string", required: true}
             });
 
-            @Annotations.Input(phonesInput)
-            @Annotations.Name("phone")
+            @Decorators.Input(phonesInput)
+            @Decorators.Name("phone")
             class PhonesModel extends RethinkDBModel {
             }
 
-            @Annotations.Model(PhonesModel)
+            @Decorators.Model(PhonesModel)
             class PhoneResourceClass extends GenericResource {
             }
             PhoneResource = PhoneResourceClass;
@@ -624,12 +624,12 @@ describe('Resources', function () {
                 restaurant: {type: "reference", model: "restaurant"}
             });
 
-            @Annotations.Input(addressInput)
-            @Annotations.Name("address")
+            @Decorators.Input(addressInput)
+            @Decorators.Name("address")
             class AddressModel extends RethinkDBModel {
             }
 
-            @Annotations.Model(AddressModel)
+            @Decorators.Model(AddressModel)
             class AddressResourceClass extends GenericResource {
             }
             AddressResource = AddressResourceClass;
@@ -644,12 +644,12 @@ describe('Resources', function () {
                 }
             });
 
-            @Annotations.Input(categoryInput)
-            @Annotations.Name("category")
+            @Decorators.Input(categoryInput)
+            @Decorators.Name("category")
             class CategoryModel extends RethinkDBModel {
             }
 
-            @Annotations.Model(CategoryModel)
+            @Decorators.Model(CategoryModel)
             class CategoryResourceClass extends GenericResource {
             }
 
@@ -660,8 +660,8 @@ describe('Resources', function () {
                 restaurant: {type: "reference", model: "restaurant"}
             });
 
-            @Annotations.Input(categoryRestaurantInput)
-            @Annotations.Name("categoryRestaurant")
+            @Decorators.Input(categoryRestaurantInput)
+            @Decorators.Name("categoryRestaurant")
             class CategoryRestaurantModel extends RethinkDBModel {
             }
 
@@ -677,12 +677,12 @@ describe('Resources', function () {
                 }
             });
 
-            @Annotations.Input(restaurantInput)
-            @Annotations.Name("restaurant")
+            @Decorators.Input(restaurantInput)
+            @Decorators.Name("restaurant")
             class RestaurantModel extends RethinkDBModel {
             }
 
-            @Annotations.Model(RestaurantModel)
+            @Decorators.Model(RestaurantModel)
             class RestaurantResourceClass extends GenericResource {
             }
 
@@ -816,7 +816,7 @@ describe('Resources', function () {
             }
             InvalidResource = InvalidResourceClass;
 
-            @Annotations.Name("validResourceName")
+            @Decorators.Name("validResourceName")
             class ValidResourceClass extends GenericResource {
             }
             ValidResource = ValidResourceClass;

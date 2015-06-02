@@ -2,8 +2,6 @@
  * Created by Filipe on 02/03/2015.
  */
 import Resource from './Resource';
-import * as Annotations from './Annotations';
-import * as DefaultProperties from './DefaultProperties';
 import * as Exceptions from './Exceptions';
 import _ from 'underscore';
 

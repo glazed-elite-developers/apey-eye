@@ -1,7 +1,7 @@
 /**
  * Created by Filipe on 26/03/2015.
  */
-import * as Annotations from './Annotations';
+import * as Decorators from './Decorators';
 import BluebirdExtended from './bluebird-extended';
 import _ from 'underscore';
 import ModelRegister from './ModelRegister.js';
@@ -89,19 +89,19 @@ class BaseClass extends BluebirdExtended {
     }
 
     static getName(method) {
-        return Annotations.getProperty(this, "name", method)
+        return Decorators.getProperty(this, "name", method)
     }
 
     static getInput(method) {
-        return Annotations.getProperty(this, "input", method)
+        return Decorators.getProperty(this, "input", method)
     }
 
     static getOutput(method) {
-        return Annotations.getProperty(this, "output", method)
+        return Decorators.getProperty(this, "output", method)
     }
 
     static getQuery(method) {
-        return Annotations.getProperty(this, "query", method)
+        return Decorators.getProperty(this, "query", method)
     }
 
     static async valid(data, method) {

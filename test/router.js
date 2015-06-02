@@ -14,7 +14,7 @@ import ApeyEye from '../apey-eye';
 let HapiRouter = ApeyEye.HapiRouter;
 let KoaRouter = ApeyEye.KoaRouter;
 let BaseRouter = ApeyEye.BaseRouter;
-let Annotations = ApeyEye.Annotations;
+let Decorators = ApeyEye.Decorators;
 let GenericResource = ApeyEye.GenericResource;
 let RethinkDBModel = ApeyEye.RethinkDBModel;
 let Input = ApeyEye.Input;
@@ -46,22 +46,22 @@ describe("Router",() => {
                 language: {type: "string", choices: ["PT", "EN"]}
             });
 
-            @Annotations.Input(restaurantInput)
-            @Annotations.Name("restaurant")
-            @Annotations.Query({
+            @Decorators.Input(restaurantInput)
+            @Decorators.Name("restaurant")
+            @Decorators.Query({
                 _sort: ['name', '-address'],
                 _filter: {name: "name", phone: 20},
                 _page_size: 10
             })
-            @Annotations.Output({
+            @Decorators.Output({
                 _fields: ['id', 'name', 'address', 'phone', 'date'],
                 _embedded: ['schedule', 'products']
             })
             class TestModel extends RethinkDBModel {
             }
 
-            @Annotations.Model(TestModel)
-            @Annotations.Name('testResourceName')
+            @Decorators.Model(TestModel)
+            @Decorators.Name('testResourceName')
             class TestResourceClass extends GenericResource {
             }
 
@@ -180,22 +180,22 @@ describe("Router",() => {
                 language: {type: "string", choices: ["PT", "EN"]}
             });
 
-            @Annotations.Input(restaurantInput)
-            @Annotations.Name("restaurant")
-            @Annotations.Query({
+            @Decorators.Input(restaurantInput)
+            @Decorators.Name("restaurant")
+            @Decorators.Query({
                 _sort: ['name', '-address'],
                 _filter: {name: "name", phone: 20},
                 _page_size: 10
             })
-            @Annotations.Output({
+            @Decorators.Output({
                 _fields: ['id', 'name', 'address', 'phone', 'date'],
                 _embedded: ['schedule', 'products']
             })
             class TestModel extends RethinkDBModel {
             }
 
-            @Annotations.Model(TestModel)
-            @Annotations.Name('testResourceName')
+            @Decorators.Model(TestModel)
+            @Decorators.Name('testResourceName')
             class TestResourceClass extends GenericResource {
             }
 
@@ -288,22 +288,22 @@ describe("Router",() => {
                 language: {type: "string", choices: ["PT", "EN"]}
             });
 
-            @Annotations.Input(restaurantInput)
-            @Annotations.Name("restaurant")
-            @Annotations.Query({
+            @Decorators.Input(restaurantInput)
+            @Decorators.Name("restaurant")
+            @Decorators.Query({
                 _sort: ['name', '-address'],
                 _filter: {name: "name", phone: 20},
                 _page_size: 10
             })
-            @Annotations.Output({
+            @Decorators.Output({
                 _fields: ['id', 'name', 'address', 'phone', 'date'],
                 _embedded: ['schedule', 'products']
             })
             class TestModel extends RethinkDBModel {
             }
 
-            @Annotations.Model(TestModel)
-            @Annotations.Name('testResourceName')
+            @Decorators.Model(TestModel)
+            @Decorators.Name('testResourceName')
             class TestResourceClass extends GenericResource {
             }
 

@@ -22,7 +22,7 @@ function InputAnnotation(properties) {
     let Input = require('./Input');
 
     if (!(properties instanceof Input)) {
-        throw new Error("Annotations: @Input constructor must receive an Input instance.");
+        throw new Error("Decorators: @Input constructor must receive an Input instance.");
     }
     return Annotation('input', properties);
 }
@@ -30,7 +30,7 @@ export {InputAnnotation as Input}
 
 function NameAnnotation(properties) {
     if (typeof properties != 'string') {
-        throw new Error("Annotations: @Name property value must be a string.")
+        throw new Error("Decorators: @Name property value must be a string.")
     }
     return function decorator(target, key, descriptor) {
         if (descriptor) {
@@ -72,7 +72,7 @@ function QueryAnnotation(properties) {
         }
     }
     else{
-        throw new Error("Annotations: @Query must receive an object.");
+        throw new Error("Decorators: @Query must receive an object.");
     }
 
     return Annotation('query', properties);
@@ -86,7 +86,7 @@ function parseSort(sortProperties) {
     if (Array.isArray(sortProperties)) {
         sortProperties.forEach(s => {
             if (typeof s !== 'string') {
-                throw new Error("Annotations: All elements in @Query._sort array must be strings.");
+                throw new Error("Decorators: All elements in @Query._sort array must be strings.");
             }
             let order, field, sortObj = {};
 
@@ -105,22 +105,22 @@ function parseSort(sortProperties) {
         return sortProperties;
     }
     else {
-        throw new Error("Annotations: Argument received in @Query._sort must be an array.");
+        throw new Error("Decorators: Argument received in @Query._sort must be an array.");
     }
 }
 function parsePageSize(pageSizeProperties) {
 
     if (typeof pageSizeProperties != 'number') {
-        throw new Error("Annotations: @Query._page_size property value must be a number.");
+        throw new Error("Decorators: @Query._page_size property value must be a number.");
     }
     else if (pageSizeProperties % 1 !== 0 || pageSizeProperties <= 0) {
-        throw new Error("Annotations: @Query._page_size property value must be a positive integer.")
+        throw new Error("Decorators: @Query._page_size property value must be a positive integer.")
     }
 }
 function parseFilters(filterProperties) {
 
     if (typeof filterProperties != "object" || Array.isArray(filterProperties)) {
-        throw new Error("Annotations: @Query._filter must receive an object with filter properties.");
+        throw new Error("Decorators: @Query._filter must receive an object with filter properties.");
     }
 }
 
@@ -141,7 +141,7 @@ function OutputAnnotation(properties) {
         return Annotation('output', properties);
     }
     else if (properties != undefined) {
-        throw new Error("Annotations: @Query must receive an object.");
+        throw new Error("Decorators: @Query must receive an object.");
     }
 }
 OutputAnnotation.AllowedProperties = ['_fields', '_embedded'];
@@ -151,24 +151,24 @@ function parseEmbedded(embeddedProperties) {
     if (Array.isArray(embeddedProperties)) {
         embeddedProperties.forEach(s => {
             if (typeof s !== 'string') {
-                throw new Error("Annotations: All elements in @Output._embedded array must be strings.");
+                throw new Error("Decorators: All elements in @Output._embedded array must be strings.");
             }
         });
     }
     else {
-        throw new Error("Annotations: Argument received in @Output._embedded must be an array.");
+        throw new Error("Decorators: Argument received in @Output._embedded must be an array.");
     }
 }
 function parseFields(fieldsProperties) {
     if (Array.isArray(fieldsProperties)) {
         fieldsProperties.forEach(s => {
             if (typeof s !== 'string') {
-                throw new Error("Annotations: All elements in @Output._fields array must be strings.");
+                throw new Error("Decorators: All elements in @Output._fields array must be strings.");
             }
         });
     }
     else {
-        throw new Error("Annotations: Argument received in @Output._fields must be an array.");
+        throw new Error("Decorators: Argument received in @Output._fields must be an array.");
     }
 }
 
@@ -176,7 +176,7 @@ function ModelAnnotation(modelClass) {
     var Model = require('./Model');
 
     if (!(modelClass.prototype instanceof Model )) {
-        throw new Error("Annotations: @Model must receive an instance of Model class as argument");
+        throw new Error("Decorators: @Model must receive an instance of Model class as argument");
     }
     return Annotation('model', modelClass);
 }
@@ -188,25 +188,15 @@ function MethodsAnnotation(properties) {
         this.properties = undefined;
     }
     else if (properties && !Array.isArray(properties)) {
-        throw new Error("Annotations: Argument received in @Methods must be an array.");
+        throw new Error("Decorators: Argument received in @Methods must be an array.");
     }
     else{
         properties.forEach(s => {
             if (typeof s !== 'string') {
-                throw new Error("Annotations: All elements in @Roles array must be strings.");
+                throw new Error("Decorators: All elements in @Roles array must be strings.");
             }
         });
     }
-    //else {
-    //    properties.forEach(method => {
-    //
-    //
-    //        ////TODO replace array with list of methods allowed for this annotation
-    //        //if ([].indexOf(method) === -1) {
-    //        //    throw  new Error(`Annotations: @Methods values must be contained in following set: ${MethodsAnnotation.methods()}`)
-    //        //}
-    //    })
-    //}
     return Annotation('methods', properties);
 
 }
@@ -216,7 +206,7 @@ function FormatAnnotation(formatClass) {
     var BaseFormatter = require('./Formatters').BaseFormatter;
 
     if (!(formatClass.prototype instanceof BaseFormatter )) {
-        throw new Error("Annotations: @Format must receive a class with base class BaseFormatter.");
+        throw new Error("Decorators: @Format must receive a class with base class BaseFormatter.");
     }
     return Annotation('format', formatClass);
 }
@@ -224,7 +214,7 @@ export {FormatAnnotation as Format}
 
 function MediaTypeAnnotation(mediaType) {
     if (typeof mediaType != 'string') {
-        throw new Error("Annotations: @MediaType property value must be a string.")
+        throw new Error("Decorators: @MediaType property value must be a string.")
     }
     return Annotation('mediaType', mediaType);
 
@@ -234,7 +224,7 @@ export {MediaTypeAnnotation as MediaType}
 
 function AuthenticationAnnotation(authenticationType) {
     if (authenticationType != undefined && typeof authenticationType != 'string') {
-        throw new Error("Annotations: @Authentication property value must be a string.")
+        throw new Error("Decorators: @Authentication property value must be a string.")
     }
     return Annotation('authentication', authenticationType);
 }
@@ -245,12 +235,12 @@ function RolesAnnotation(properties) {
         this.properties = undefined;
     }
     else if (properties && !Array.isArray(properties)) {
-        throw new Error("Annotations: Argument received in @Roles must be an array.");
+        throw new Error("Decorators: Argument received in @Roles must be an array.");
     }
     else{
         properties.forEach(s => {
             if (typeof s !== 'string') {
-                throw new Error("Annotations: All elements in @Roles array must be strings.");
+                throw new Error("Decorators: All elements in @Roles array must be strings.");
             }
         });
     }
@@ -306,7 +296,7 @@ function DocumentationAnnotation(documentation) {
         return Annotation('documentation', documentation);
     }
     else{
-        throw new Error("Annotations: @Documentation must receive an object.");
+        throw new Error("Decorators: @Documentation must receive an object.");
     }
 }
 export {DocumentationAnnotation as Documentation}
