@@ -161,6 +161,23 @@ curl -X DELETE \
   https://api.apey-eye.com/restaurant/6507da1f954a/
 ```
 
+### Actions
+
+Apey Eye also allows to developer to implement their own custom actions.
+
+```javascript
+class MyResource extends Resource{
+	@Action()
+	static async get_schema(){
+		return MyResource.getSchema();
+	}
+	@Action()
+	static async post_schema(){
+		return MyResource.getSchema();
+	}
+}
+```
+
 ### Decorators
 
 There are several types of decorators that can be used in order to annotate or modify _Resource_ class.
