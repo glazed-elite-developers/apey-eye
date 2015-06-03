@@ -90,8 +90,10 @@ class Input {
                     throw new Error("Input: value of model property must be a string.");
                 }
                 //DEFAULT PROPERTY MUST HAVE THE SAME TYPE OF TYPE PROPERTY
-                if (fieldProperties.default != undefined && typeof fieldProperties.default != typeof fieldProperties.type) {
-                    throw new Error("Input: value of model property must be a string.");
+                if (fieldProperties.default != undefined && typeof fieldProperties.default != fieldProperties.type) {
+                    if (!(fieldProperties.type === "date" && fieldProperties.default === "now")) {
+                        throw new Error(`Input: value of model property must be a ${fieldProperties.type}`);
+                    }
                 }
             });
 
@@ -231,6 +233,7 @@ class Input {
     }
 
     static validBoolean(field, dataField) {
+
         if (typeof dataField === "boolean") {
             return true;
         }

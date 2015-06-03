@@ -8,13 +8,13 @@ let Decorators = ApeyEye.Decorators;
 let GenericResource = ApeyEye.GenericResource;
 let Input = ApeyEye.Input;
 
-import CategoryModel from '../models/CategoryModel.js';
+import ScheduleModel from '../models/ScheduleModel.js';
 
-@Decorators.Model(CategoryModel)
-@Decorators.Name("category")
+@Decorators.Model(ScheduleModel)
+@Decorators.Name("schedule")
 @Decorators.Authentication("basic")
 @Decorators.Roles(["restaurant_owner"])
-class CategoryResource extends GenericResource {
+class ScheduleResource extends GenericResource {
 }
 
-export default CategoryResource;
+export default ScheduleResource;

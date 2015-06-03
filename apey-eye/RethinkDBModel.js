@@ -39,7 +39,6 @@ class RethinkDBModel extends Model {
 
         await ModelClass._checkDataTable(false);
         let list = await db.getCollection(properties);
-
         return await ModelClass._serializeArray(list, properties);
     }
 

@@ -4,26 +4,26 @@
 
 import ApeyEye from '../../apey-eye';
 
-let Annotations = ApeyEye.Annotations;
+let Decorators = ApeyEye.Decorators;
 let Formatters = ApeyEye.Formatters;
 let GenericResource = ApeyEye.GenericResource;
 let Input = ApeyEye.Input;
 
 import RestaurantModel from '../models/RestaurantModel.js';
 
-@Annotations.Model(RestaurantModel)
-@Annotations.Name("Restaurant")
-@Annotations.Documentation({
+@Decorators.Model(RestaurantModel)
+@Decorators.Name("Restaurant")
+@Decorators.Documentation({
     title: "Restaurant Resource",
     description: "This resource is the entry point to access restaurants information"
 })
-@Annotations.Output({
-    _embedded: ['phone']
+@Decorators.Output({
+    _embedded: ['schedules','products']
 })
-@Annotations.Authentication("basic")
-@Annotations.Roles(["restaurant_owner", "admin"])
+@Decorators.Authentication("basic")
+@Decorators.Roles(["restaurant_owner", "admin"])
 class RestaurantResource extends GenericResource {
-    @Annotations.Action()
+    @Decorators.Action()
     static get_schema(){
         let ResourceClass = this,
             input = RestaurantModel.getInput();

@@ -4,17 +4,17 @@
 
 import ApeyEye from '../../apey-eye';
 
-let Annotations = ApeyEye.Annotations;
+let Decorators = ApeyEye.Decorators;
 let Input = ApeyEye.Input;
 let RethinkDBModel = ApeyEye.RethinkDBModel;
 
 var categoryInput = new Input({
     name: {type: "string", required: true},
-    restaurants: {type: "manyToMany", model: "restaurant", inverse: "categories", through: "categoryRestaurant"}
+    products: {type: "collection", model: "product", inverse: "categories"}
 });
 
-@Annotations.Input(categoryInput)
-@Annotations.Name("category")
+@Decorators.Input(categoryInput)
+@Decorators.Name("category")
 class CategoryModel extends RethinkDBModel {
 }
 

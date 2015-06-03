@@ -4,17 +4,17 @@
 
 import ApeyEye from '../../apey-eye';
 
-let Annotations = ApeyEye.Annotations;
+let Decorators = ApeyEye.Decorators;
 let Resource = ApeyEye.Resource;
 let Input = ApeyEye.Input;
 
-import CategoryRestaurantModel from '../models/CategoryRestaurantModel.js';
+import OrderProductModel from '../models/OrderProductModel.js';
 
-@Annotations.Name("categoryrestaurant")
-@Annotations.Output({
-    _fields: ["category", "restaurant"]
+@Decorators.Name("orderProduct")
+@Decorators.Output({
+    _fields: ["product", "order"]
 })
-class CategoryRestaurantResource extends Resource {
+class OrderProductResource extends Resource {
     static async fetch(options = {}) {
         let ResourceClass = this,
             properties = ResourceClass.joinProperties(options.requestProperties, ResourceClass.fetch);
@@ -24,4 +24,4 @@ class CategoryRestaurantResource extends Resource {
     }
 }
 
-export default CategoryRestaurantResource;
+export default OrderProductResource;

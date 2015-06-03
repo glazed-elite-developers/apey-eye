@@ -3,21 +3,23 @@
  */
 import ApeyEye from '../../apey-eye';
 
-let Annotations = ApeyEye.Annotations;
+let Decorators = ApeyEye.Decorators;
 let Input = ApeyEye.Input;
 let RethinkDBModel = ApeyEye.RethinkDBModel;
 
 let restaurantInput = new Input({
     name: {type: "string", required: true},
-    dateCreated: {type: "date", default: "now"},
-    phone: {type: "reference", model: "phone"},
-    addresses: {type: "collection", model: "address", inverse: "restaurant"},
-    categories: {type: "manyToMany", model: "category", inverse: "restaurants", through: "categoryRestaurant"}
+    phone: {type: "string", required: false},
+    address: {type: "string", required:true},
+    rating : {type: "number", default: 0},
+    photo: {type:"string"},
+    schedules: {type: "collection", model: "schedule", inverse: "restaurant"},
+    products: {type: "collection", model: "product", inverse: "restaurant"}
 });
 
-@Annotations.Input(restaurantInput)
-@Annotations.Name("restaurant")
-@Annotations.Query({
+@Decorators.Input(restaurantInput)
+@Decorators.Name("restaurant")
+@Decorators.Query({
     _sort: ['name', '-address'],
     _page_size: 10
 })

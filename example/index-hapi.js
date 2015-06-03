@@ -7,38 +7,52 @@ import ApeyEye from '../apey-eye';
 let HapiRouter = ApeyEye.HapiRouter;
 let HapiGenericRouter = ApeyEye.HapiGenericRouter;
 
-import RestaurantResource from './resources/RestaurantResource.js';
-import PhoneResource from './resources/PhoneResource.js';
 import CategoryResource from './resources/CategoryResource.js';
-import AddressResource from './resources/AddressResource.js';
-import CategoryRestaurantResource from './resources/CategoryRestaurantResource.js';
-
+import ClientResource from './resources/ClientResource.js';
+import CourierResource from './resources/CourierResource.js';
+import OrderProductResource from './resources/OrderProductResource.js';
+import OrderResource from './resources/OrderResource.js';
+import ProductResource from './resources/ProductResource.js';
+import RestaurantResource from './resources/RestaurantResource.js';
+import ScheduleResource from './resources/ScheduleResource.js';
 
 let router = new HapiGenericRouter();
-router.register([{
+router.register([
+    {
         path: 'restaurant',
         resource: RestaurantResource
     },
     {
-        resource: PhoneResource
+        path: "orders",
+        resource: OrderResource
+    },
+    {
+        resource: ProductResource
+    },
+    {
+        resource: ScheduleResource
     },
     {
         resource: CategoryResource
     },
     {
-        path:"addresses",
-        resource: AddressResource
+        path: "couriers",
+        resource: CourierResource
     },
     {
-        resource: CategoryRestaurantResource
+        path: "clients",
+        resource: CourierResource
+    },
+    {
+        resource: OrderProductResource
     }
 ]);
 
-router.start({port:3000},function (err, server) {
-    if(!err){
+router.start({port: 3000}, function (err, server) {
+    if (!err) {
         console.log('Server running at', server.info.uri);
     }
-    else{
+    else {
         console.log('Error starting server');
     }
 });

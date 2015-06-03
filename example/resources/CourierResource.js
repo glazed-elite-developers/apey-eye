@@ -4,27 +4,27 @@
 
 import ApeyEye from '../../apey-eye';
 
-let Annotations = ApeyEye.Annotations;
+let Decorators = ApeyEye.Decorators;
 let Formatters = ApeyEye.Formatters;
 let GenericResource = ApeyEye.GenericResource;
 let Input = ApeyEye.Input;
 
-import PhoneModel from '../models/PhoneModel.js';
+import CourierModel from '../models/CourierModel.js';
 
-@Annotations.Model(PhoneModel)
-@Annotations.Name("phone")
-@Annotations.Methods(["static.fetch", "static.fetchOne"])
-class PhoneResource extends GenericResource {
-    @Annotations.Action()
+@Decorators.Model(CourierModel)
+@Decorators.Name("courier")
+@Decorators.Methods(["constructor", "static.fetchOne","static.fetch"])
+class CourierResource extends GenericResource {
+    @Decorators.Action()
     async post_register(options){
         //DO SOME STUFF
         return "Registered"
     }
-    @Annotations.Action()
+    @Decorators.Action()
     static async post_register(options){
     //DO SOME STUFF
     return "Registered static"
 }
 }
 
-export default PhoneResource;
+export default CourierResource;

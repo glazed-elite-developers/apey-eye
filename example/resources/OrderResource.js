@@ -8,13 +8,13 @@ let Decorators = ApeyEye.Decorators;
 let GenericResource = ApeyEye.GenericResource;
 let Input = ApeyEye.Input;
 
-import CategoryModel from '../models/CategoryModel.js';
+import OrderModel from '../models/OrderModel.js';
 
-@Decorators.Model(CategoryModel)
-@Decorators.Name("category")
+@Decorators.Model(OrderModel)
+@Decorators.Name("order")
 @Decorators.Authentication("basic")
-@Decorators.Roles(["restaurant_owner"])
-class CategoryResource extends GenericResource {
+@Decorators.Roles(["client", "courier"])
+class OrderResource extends GenericResource {
 }
 
-export default CategoryResource;
+export default OrderResource;
