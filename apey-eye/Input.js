@@ -1,5 +1,5 @@
 /**
- * Created by Filipe on 23/03/2015.
+ * Created by GlazedSolutions on 23/03/2015.
  */
 import Model from './Model.js';
 import ModelRegister from './ModelRegister.js';

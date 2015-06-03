@@ -1,5 +1,5 @@
 /**
- * Created by Filipe on 19/04/2015.
+ * Created by GlazedSolutions on 19/04/2015.
  */
 import RethinkDBModel from './../RethinkDBModel.js'
 import * as Decorators from './../Decorators.js';

@@ -1,5 +1,5 @@
 /**
- * Created by Filipe on 03/03/2015.
+ * Created by GlazedSolutions on 03/03/2015.
  */
 import BaseClass from './BaseClass.js';
 import _ from 'underscore';

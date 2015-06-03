@@ -1,5 +1,5 @@
 /**
- * Created by Filipe on 17/04/2015.
+ * Created by GlazedSolutions on 17/04/2015.
  */
 import passportLocal from 'passport-local';
 import passportHTTP from 'passport-http';

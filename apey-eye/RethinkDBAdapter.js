@@ -1,5 +1,5 @@
 /**
- * Created by Filipe on 05/03/2015.
+ * Created by GlazedSolutions on 05/03/2015.
  */
 import rethink from 'rethinkdbdash';
 import DatabaseConfig from './config/database.js';

@@ -1,5 +1,5 @@
 /**
- * Created by Filipe on 11/03/2015.
+ * Created by GlazedSolutions on 11/03/2015.
  */
 import chai from 'chai';
 import chaiAsPromised from 'chai-as-promised';

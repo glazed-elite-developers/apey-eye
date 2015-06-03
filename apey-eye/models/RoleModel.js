@@ -1,5 +1,5 @@
 /**
- * Created by Filipe on 20/04/2015.
+ * Created by GlazedSolutions on 20/04/2015.
  */
 import Database from './../RethinkDBAdapter.js'
 import RethinkDBModel from './../RethinkDBModel.js'

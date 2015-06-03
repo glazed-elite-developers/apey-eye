@@ -1,5 +1,5 @@
 /**
- * Created by Filipe on 10/04/2015.
+ * Created by GlazedSolutions on 10/04/2015.
  */
 'use strict';
 

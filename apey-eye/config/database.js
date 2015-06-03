@@ -1,5 +1,5 @@
 /**
- * Created by Filipe on 13/05/2015.
+ * Created by GlazedSolutions on 13/05/2015.
  */
 export default {
     host: 'localhost',

@@ -1,5 +1,5 @@
 /**
- * Created by Filipe on 12/05/2015.
+ * Created by GlazedSolutions on 12/05/2015.
  */
 
 export default {

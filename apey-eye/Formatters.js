@@ -1,5 +1,5 @@
 /**
- * Created by Filipe on 16/03/2015.
+ * Created by GlazedSolutions on 16/03/2015.
  */
 import * as Decorators from './Decorators';
 let MediaType = Decorators.MediaType;

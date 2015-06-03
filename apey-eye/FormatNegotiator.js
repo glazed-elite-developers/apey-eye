@@ -1,5 +1,5 @@
 /**
- * Created by Filipe on 17/03/2015.
+ * Created by GlazedSolutions on 17/03/2015.
  */
 import * as Formatters from './Formatters';
 import * as DefaultProperties from './DefaultProperties';

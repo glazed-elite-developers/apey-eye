@@ -4,7 +4,7 @@
   "description": "An Object-Resource Mapping Node REST Framework",
   "main": "./build/apey-eye/index.js",
   "author": "Filipe Sousa",
-  "license": "ISC",
+  "license": "MIT",
   "homepage": "https://github.com/glazedSolutions/apey-eye",
   "repository": {
     "type": "git",

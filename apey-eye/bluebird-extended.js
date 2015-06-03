@@ -1,6 +1,3 @@
-/**
- * Created by Filipe on 29/03/2015.
- */
 import Bluebird from 'bluebird';
 import util from 'util';
 

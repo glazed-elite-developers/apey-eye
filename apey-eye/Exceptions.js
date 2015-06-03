@@ -1,5 +1,5 @@
 /**
- * Created by Filipe on 19/03/2015.
+ * Created by GlazedSolutions on 19/03/2015.
  */
 
 class NotFound extends Error{

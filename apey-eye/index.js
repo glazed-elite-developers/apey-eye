@@ -1,5 +1,5 @@
 /**
- * Created by Filipe on 26/05/2015.
+ * Created by GlazedSolutions on 26/05/2015.
  */
 import * as Decorators from './Decorators';
 

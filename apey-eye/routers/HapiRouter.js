@@ -1,8 +1,5 @@
 /**
- * Created by Filipe on 20/04/2015.
- */
-/**
- * Created by Filipe on 03/03/2015.
+ * Created by GlazedSolutions on 20/04/2015.
  */
 
 import BaseRouter from './../BaseRouter.js';
