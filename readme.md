@@ -21,13 +21,13 @@ $ npm test
 $ npm run-script test-cov
 ```
 
-Apey Eye is a REST framework for Node.js that pretends to offer to developers a simple and intuitive way to develop their web services, needing only to understand a small set of concepts.
+Apey Eye is a REST framework for Node.js that pretends offer to developers a simple and intuitive way to develop their web services, needing only to understand a small set of concepts.
 
-Epey Eye is based essentially in following concepts:
+Apey Eye is based essentially in following concepts:
 
 * **Input:**
 It is the entity used to build a schema to validate data. 
-The main goal is to use instances of this entity associated to *Models* or *Resources* to validate data in any point of request handling. Can be used tovalidate data received from clients but can also be used to validate, for example, data sent to them.
+The main goal is to use instances of this entity associated to *Models* or *Resources* to validate data in any point of requests handling. Can be used to validate data received from clients but can also be used to validate, for example, data sent to them.
 
 * **Model:**
 It is the unique entity in framework able to connect to database, may be implemented in a specific way according to the database that will be used.
@@ -40,9 +40,9 @@ It is the entity responsible to make the data processing and use _Models_ to acc
 * **Router:**
 It is the entity responsible for mapping HTTP requests received and the _Resources_ in charge for its processing.
 
-As it is already common to have an __object-relational mapping__ for represent relational database content through an object oriented way, that allows handling data in an easier and intuitive way, also **Apey Eye** makes an __object-resource mapping__ where _Resources_ make an direct connection to _Model_ objects.
+As it is already common to have an __object-relational mapping__ for represent relational database content through an object oriented way, that allows handling data in an easier and intuitive way, also **Apey Eye** makes an __object-resource mapping__ where _Resources_ make a direct connection to _Model_ objects.
 
-In addiction to make the source code and their usage by developers mode simpler, this perspective was also adopted in order to allow development of REST services in a more organized and simpler way, offering an easy separation of responsibilities between the different entities included in **Apey Eye** framework.
+In addition to make the source code and their usage by developers simpler, this perspective was also adopted in order to allow development of REST services in a more organized and simpler way, offering an easy separation of responsibilities between the different entities included in **Apey Eye** framework.
 
 Furthermore, this object oriented approach allow entities like _Model_ and _Resource_ to be used in a imperative way by developer, facilitating their use independently of structures such as the _Router_. 
 Thus, this still allows them to be more easily testable programmatically.
@@ -60,7 +60,7 @@ Thus, this still allows them to be more easily testable programmatically.
 
 ## Input
 
-Input instances are the objects that will be used to validate data, so it is used to define a data schema, where can be found all fields that are allowed, and some properties for them. 
+Input instances are the objects that will be used to validate data, so are used to define a data schema, where can be found all fields that are allowed, and some properties for them. 
 
 ```javascript
 let Input = ApeyEye.Input;
@@ -81,7 +81,7 @@ let yearValidator = function(value){
 };
 ```
 
-For the definition of each field of Input can be used the following properties:
+For the definition of each field of *Input* can be used the following properties:
 
 * **type**: a string with type of data, "string", "number", "date", "boolean", "reference", "collection", "manyToMany".
 * **required:** mandatory existence of data for the field
@@ -94,14 +94,10 @@ If the value of the field represents a relation then there are other properties 
 
 * **model**: a string with the identifier of the related _Model_.
 * **inverse**: a string with the name of the field responsible for relationship in related _Model_.
-* **through**: a string with the name of the intermediate _Model_ used to make possíble a _ManyToMany_ relationship.
-
-
+* **through**: a string with the name of the intermediate _Model_ used to make possible a _ManyToMany_ relationship.
 
 
 ## Models
-
-With regard to syntax, the *Models* are similar to *Resources*, promoting greater ease of assimilation of concepts by developer. Offering a similar interface, the progression in learning to use the framework is greater.
 
 The *Models* are the entities responsible by communication between framework and database and thus the implementation of each *Model* must follow the type of database that it will connect.
 
@@ -109,7 +105,7 @@ This is one of the components that is implemented in an independent way, allowin
 
 ### Class Based
 
-Also *Models* are implemented through classes, and there exists direct connection between method of this class and *Resource* methods.
+*Models* were implemented through classes, allowing to be only needed one compact entity to handle a data model in databases.
 
 ```javascript
 let Model = ApeyEye.Model;
@@ -128,24 +124,81 @@ class MyModel extends Model{
 
 ### Static vs Instance
 
-Such as in *Resources** also in *Models* is applied an object oriented approach, and thus it exists a distinction between static and instance methods according the type of access that they want to do.
+Attending to an object oriented approach, there are a difference between the meaning of static methods and instance methods.
 
 **Static Methods** intend to be the responsible methods for access and manipulation of data in a collection level, providing methods to insert new data or access data that exists in database.
 
-**Instance Methods** intend to be the responsible for operations that change the internal state of one single object in database or even for operations that deletes the objects. 
+**Instance Methods** intend to be the responsible ones for operations that change the internal state of one single object in database or even for operations that deletes the objects. 
 
 ### Decorators
 
-Such as in *Resources* also in *Models* can be applied some decorators:
+There are several kinds of decorators that can be used in order to annotate or modify a *Model* class.
+Decorators allow to assign properties such as schemas to validate data, query parameters, output properties and also other properties related to which kind of entity you need to annotate, such *Resources* or *Formatters*.
 
-* **@Query**
-* **@Output**
-* **@Input**
-* **@Name**
+Available decorators in ApeyEye can be accessed through:
 
-Almost all decorators have the same behavior in *Models* and in *Resources* with the exception of the **@Name**.
-Although this decorator has a similar meaning than in *Resources*, in addiction to assign an identifier to the entity has one other goal.
-It represents also the name used in database to represent the table that the *Model* will interact.
+```javascript
+let Annotations = ApeyEye.Annotations;
+```
+
+####@Name
+
+This identifier is used to assign an identifier to the entity and it also represents the name used in database to represent the table that the *Model* will interact.
+
+```javascript
+let Name = Annotation.Name;
+
+@Name("myModelIdentifier")
+class MyModel extends Model{}
+```
+
+####@Input
+
+It receives an _Input_ entity, where is presented the data schema that will be used to validate data received in API.
+
+```javascript
+let Name = Annotation.Input;
+
+@Input(inputObject)
+class MyModel extends Model{}
+```
+
+####@Query
+
+It receives an object with properties that will be used to query database like sort, filter and pagination.
+
+* **_sort**: an array with field names that will be included in sorting and its order.
+**example:** ["name", "-description"], sort by name ascending and by description in descending order.
+* **_filter**: an object with values to filter results.
+* **_page_size**: maximum number of results that will be included in response.
+
+```javascript
+let Query = Annotations.Query;
+
+@Query({ 
+	_sort: ["-name","address"],
+	_filter: {type : "grill"}, 
+	_page_size: 15
+})
+class MyModel extends Model{}
+```
+
+####@Output
+
+It receives an object with properties that responses must follow, like the set of fields and related objects that would be included.
+
+* **_fields**: an array with field names that will be included in response.
+* **_embedded**: an array with field names which must include related object.
+
+```javascript
+let Output = Annotations.Output;
+
+@Output({
+	_fields: ["name","categories"],
+	_embedded: ["categories"],
+})
+class MyModel extends Model{}
+```
 
 ## Relations
 
@@ -222,7 +275,7 @@ curl -X POST \
 ### ManyToMany
 
 * **inverse:** a string with name of field that ensure relationship in related model. 
-* **through:**  a string with the name of the intermediate *Model* used to make possíble a ManyToMany relationship.
+* **through:**  a string with the name of the intermediate *Model* used to make possible a ManyToMany relationship.
 
 ```javascript
 var restaurantInput = new Input({
@@ -266,6 +319,8 @@ curl -X POST \
 
 ## Resources
 
+With regard to syntax, the *Resources* are similar to *Models*, promoting greater ease of assimilation of concepts by developer. Offering a similar interface, the progression in learning to use the framework is greater.
+
 ### Class-based
 
 Resources are implemented through __classes__, existing direct correspondence between class methods and each type of methods of HTTP requests. So, there are one class method representing each of HTTP request that one resource can handle.
@@ -287,11 +342,12 @@ class MyResource extends Resource{
 
 ### Static vs Instance 
 
-Attending to an object oriented aproach, there are a difference between the meaning of static methods and instance methods.
+Such as in *Models* also in *Resources* is applied an object oriented approach, and thus it exists a distinction between static and instance methods according the type of access that they want to do.
+
 
 #### Static Methods
 
-* Responsible for handle request that access a kind of factory where it is possible to access or insert data.
+* Responsible for handle requests that access a kind of factory where it is possible to access or insert data.
 * Each one of static methods has a direct correspondence with all HTTP methods that can be applied to urls that match with __/(_resource_name_)/__ pattern.
 * Insertion of data can be done using class constructor.
 * Although access to only one element of collection must be done through a GET HTTP request to url __/(_resource_name_)/:id/__, this request is also mapped to a static method, because it is also considered an access to the collection, with the difference that parameter ID allow to filter the results and return only the object that match with the value of it.
@@ -362,7 +418,7 @@ curl -X DELETE \
 
 ### Actions
 
-Apey Eye also allows to developer to implement their own custom actions.
+Apey Eye also allows developer to implement their own custom actions.
 
 ```javascript
 let Resource = ApeyEye.Resource,
@@ -377,11 +433,11 @@ class MyResource extends Resource{
 ```
 
 
-As showed in previows example, *Resource* actions must follow two requirements:
+As showed in previous example, *Resource* actions must follow two requirements:
 * It is needed to use **@Action** decorator;
 * Method name must match with pattern **\<HTTP_method\>_\<action_name\>**
 
-Only when these two requirements are met the methods are treated as actions, otherwise the framework will assume them as a common auxiliar method to the class.
+Only when these two requirements are met the methods are handled as actions, otherwise the framework will assume them as a common auxiliar method to the class.
 
 * **Use static action**
 
@@ -404,75 +460,13 @@ curl -X POST \
 
 ### Decorators
 
-There are several types of decorators that can be used in order to annotate or modify _Resource_ class.
-Decorators allow to assign properties such as schemas to validate data, query parameters, output properties and also other properties related to access control like authentication and permissions.
-
-Available decorators in ApeyEye can be accessed through
-
-```javascript
-let Annotations = ApeyEye.Annotations;
-```
-
-####@Name
-
-It receives a string representing an identifier for target _Resource_ in API.
+Decorators as *@Query*, *@Output*, *@Input* and *@Name* can also be used in *Resources* with almost the same meaning.
+The unique distinction is case of *@Name* decorator.
+Although this decorator has a similar meaning than in *Models*, assigning an identifier to the entity has one other goal.
 This identifier is used when the _Resource_ is added to _Router_, if no path is specified then the identifier will be used to build the path where Resource will be available.
 In a **NoBackend** approach, the Model that will be associated to the _Resource_ also will have this identifier.
 
-```javascript
-let Name = Annotation.Name;
-
-@Name("myResourceIdentifier")
-class MyResource extends Resource{}
-```
-
-####@Input
-
-It receives an _Input_ entity, where is presented the data schema that will be used to validate data received in API.
-
-```javascript
-let Name = Annotation.Input;
-
-@Input(inputObject)
-class MyResource extends Resource{}
-```
-
-####@Query
-
-It receives an object with properties that will be used to query database like sort, filter and pagination.
-
-* **_sort**: an array with field names that will be included in sorting and its order.
-**example:** ["name", "-description"], sort by name ascending and by description in descending order.
-* **_filter**: an object with values to filter results.
-* **_page_size**: maximum number of results that will be included in response.
-
-```javascript
-let Query = Annotations.Query;
-
-@Query({ 
-	_sort: ["-name","address"],
-	_filter: {type : "grill"}, 
-	_page_size: 15
-})
-class MyResource extends Resource{}
-```
-
-####@Output
-
-It receives an object with properties that responses must follow like the set of fields and related objects that would be included.
-
-* **_fields**: an array with fields names that will be included in response.
-* **_embedded**: an array with fields that must include related object.
-
-```javascript
-let Output = Annotations.Output;
-
-@Output({
-	_fields: ["name","categories"],
-	_embedded: ["categories"],
-})
-class MyResource extends Resource{}
-```
+Although in *Resources* can be applied some other decorators:
 
 ####@Format
 
@@ -519,7 +513,7 @@ class MyResource extends Resource{}
 
 ####@Roles
 
-It receives an array with identifiers of roles of users that are allowed to perform request to Resource.
+It receives an array with identifiers of roles of users that are allowed to perform requests to *Resource*.
 
 ```javascript
 let Roles = Annotations.Roles;
@@ -530,7 +524,7 @@ class MyResource extends Resource{}
 
 In framework there are models that represents both roles and users and allow to make a connection between users and which roles are related to them in the system.
 
-By default, there are an hierarchical schema for roles that allow an user to access resources that are limited to other roles that are directly or indirectly related with user's role and have also an lower hierarchical level.
+By default, there are an hierarchical schema for roles that allows an user to access resources that are limited to other roles that are directly or indirectly related with user's role and have also an lower hierarchical level.
 
 **Exemple:**
 
@@ -559,7 +553,7 @@ class MyResource extends Resource{}
 
 ## GenericResource
 
-Besides the possibility of defining a *Resource* class in which the developer needs to build its own implementation, the developer can also use a Generic Resource class where are adopted the default implementation for each method.
+Besides the possibility of defining a *Resource* class in which the developer needs to build its own implementation, the developer can also use a *GenericResource* class where are adopted the default implementation for each method.
 
 ```javascript
 @Annotations.Model(MyModel)
@@ -570,7 +564,7 @@ Simply through mentioned code it is possible to obtain a connection between *Res
 
 ### Decorators
 
-With GenericResource can be used all decorators already mentioned in this documentation but in addiction should be used others that are more appropriate in this context.
+With *GenericResource* can be used all decorators already mentioned in this documentation but in addition should be used others that are more appropriate in this context.
 
 #### @Model
 
@@ -603,7 +597,7 @@ class MyResource extends GenericResource{}
 
 In Apey Eye, the *Router* is the entity responsible to connect received HTTP requests *Resources** that exists in API and will handle them.
 
-The framework was designed with the purpose to be independent of the type of Router that are in use allowing to be used different kinds of *Routers* according to developer preferences.
+The framework was designed with the purpose to be independent of the type of *Router* that are in use allowing to be used different kinds of *Routers* according to developer preferences.
 Thus it is possible to implement a *Router* through frameworks like Hapi, Koa, Express or others.
 
 **Note:** There are just implemented and available *Routers* based on Hapi and Koa.
