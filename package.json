@@ -3,7 +3,7 @@
   "version": "0.0.5",
   "description": "An Object-Resource Mapping Node REST Framework",
   "main": "./build/apey-eye/index.js",
-  "author": "Filipe Sousa",
+  "author": "GlazedSolutions",
   "license": "MIT",
   "homepage": "https://github.com/glazedSolutions/apey-eye",
   "repository": {
@@ -68,7 +68,5 @@
     "istanbul-harmony": "^0.3.12",
     "mocha": "^2.2.4",
     "mochawait": "^2.0.0"
-  },
-  "devDependencies": {
   }
 }
