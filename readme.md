@@ -551,7 +551,7 @@ let Documentation = Annotations.Documentation;
 class MyResource extends Resource{}
 ```
 
-**Note:** Swagger documentation can be found through requests to *http://<api-base-path>/api-docs/*
+**Note:** Swagger documentation can be found through requests to *http://\<api-base-path\>/api-docs/*
 
 ## GenericResource
 
