@@ -551,6 +551,8 @@ let Documentation = Annotations.Documentation;
 class MyResource extends Resource{}
 ```
 
+**Note:** Swagger documentation can be found through requests to *http://<api-base-path>/api-docs/*
+
 ## GenericResource
 
 Besides the possibility of defining a *Resource* class in which the developer needs to build its own implementation, the developer can also use a *GenericResource* class where are adopted the default implementation for each method.
