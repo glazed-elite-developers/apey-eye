@@ -29,6 +29,14 @@ class RestaurantResource extends GenericResource {
             input = RestaurantModel.getInput();
         return input;
     }
+    @Decorators.Roles(["basic_client"])
+    static async fetch(options){
+        return await GenericResource.fetch(options);
+    }
+    @Decorators.Roles(["basic_client"])
+    static async fetchOne(options){
+        return await GenericResource.fetch(options);
+    }
 }
 
 export default RestaurantResource;

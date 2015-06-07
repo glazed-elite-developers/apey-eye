@@ -4,5 +4,5 @@
 export default {
     host: 'localhost',
     port: 28015,
-    database: 'test2'
+    database: 'db1'
 };

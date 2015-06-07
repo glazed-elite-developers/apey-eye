@@ -25,6 +25,10 @@ import KoaRouter from './routers/KoaRouter.js';
 import HapiGenericRouter from './routers/HapiGenericRouter.js';
 import HapiRouter from './routers/HapiRouter.js';
 
+import RouterConfig from './config/router.js';
+import DatabaseConfig from './config/database.js';
+import ServerConfig from './config/server.js';
+
 export default {
     Decorators: Decorators,
     Model: Model,
@@ -40,7 +44,9 @@ export default {
     KoaGenericRouter: KoaGenericRouter,
     KoaRouter: KoaRouter,
     HapiGenericRouter: HapiGenericRouter,
-    HapiRouter: HapiRouter
-
+    HapiRouter: HapiRouter,
+    RouterConfig : RouterConfig,
+    DatabaseConfig : DatabaseConfig,
+    ServerConfig : ServerConfig
 }
 

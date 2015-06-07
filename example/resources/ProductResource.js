@@ -15,6 +15,14 @@ import ProductModel from '../models/ProductModel.js';
 @Decorators.Authentication("basic")
 @Decorators.Roles(["restaurant_owner"])
 class ProductResource extends GenericResource {
+    @Decorators.Roles(["basic_client"])
+    static async fetch(options){
+        return await GenericResource.fetch(options);
+    }
+    @Decorators.Roles(["basic_client"])
+    static async fetchOne(options){
+        return await GenericResource.fetch(options);
+    }
 }
 
 export default ProductResource;

@@ -3,5 +3,5 @@
  */
 
 export default {
-    basePath: '/classes'
+    //basePath: '/classes'
 };

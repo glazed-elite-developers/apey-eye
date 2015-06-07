@@ -149,7 +149,7 @@ describe("hapi", () => {
                 await new UserModel({data: userData});
             });
             it("Fetch", async ()=> {
-                let list = await request({url: server.info.uri + '/classes/restaurant/', json: true});
+                let list = await request({url: server.info.uri + '/restaurant/', json: true});
                 expect(list).to.not.be.undefined;
                 expect(list).to.be.instanceof(Array);
             });
@@ -157,7 +157,7 @@ describe("hapi", () => {
                 let restaurantData = {name: "restaurantName"};
 
                 let obj = await request.post({
-                    url: server.info.uri + '/classes/restaurant/',
+                    url: server.info.uri + '/restaurant/',
                     json: true,
                     body: restaurantData
                 });
@@ -165,13 +165,13 @@ describe("hapi", () => {
                 expect(obj.id).to.not.be.undefined;
                 expect(obj.name).to.equal(restaurantData.name);
                 let obj2 = await request.get({
-                    url: server.info.uri + '/classes/restaurant/' + obj.id,
+                    url: server.info.uri + '/restaurant/' + obj.id,
                     json: true
                 });
                 expect(obj).to.deep.equal(obj2);
 
                 expect(request.patch({
-                    url: server.info.uri + '/classes/restaurant/' + obj.id,
+                    url: server.info.uri + '/restaurant/' + obj.id,
                     json: true
                 })).to.be.rejected;
             });
@@ -179,13 +179,13 @@ describe("hapi", () => {
                 let restaurantData = {name: "restaurantName", phone: 123123};
 
                 let obj = await request.post({
-                    url: server.info.uri + '/classes/restaurant/',
+                    url: server.info.uri + '/restaurant/',
                     json: true,
                     body: restaurantData
                 });
 
                 let resultAction = await request.get({
-                    url: server.info.uri + '/classes/restaurant/' + obj.id + '/name/',
+                    url: server.info.uri + '/restaurant/' + obj.id + '/name/',
                     json: true,
                     body: restaurantData
                 });
@@ -195,13 +195,13 @@ describe("hapi", () => {
                 let restaurantData = {name: "restaurantName", phone: 123123};
 
                 let obj = await request.post({
-                    url: server.info.uri + '/classes/restaurant/',
+                    url: server.info.uri + '/restaurant/',
                     json: true,
                     body: restaurantData
                 }); 
 
                 expect(request.del({
-                    url: server.info.uri + '/classes/restaurant/' + obj.id
+                    url: server.info.uri + '/restaurant/' + obj.id
                 })).to.be.rejected;
 
             });
@@ -210,15 +210,15 @@ describe("hapi", () => {
                 let restaurantData = {name: "restaurantName", phone: 123123};
 
                 let obj = await request.post({
-                    url: server.info.uri + '/classes/restaurant/',
+                    url: server.info.uri + '/restaurant/',
                     json: true,
                     body: restaurantData
                 });
 
-                expect(request.del(server.info.uri + '/classes/restaurant/' + obj.id)).to.be.rejected;
-                expect(request.del(server.info.uri + '/classes/restaurant/' + obj.id).auth(userData.username, "invalidPassword"+shortid.generate(), true)).to.be.rejected;
-                expect(request.del(server.info.uri + '/classes/restaurant/' + obj.id).auth("invalidUsername"+shortid.generate(), userData.password, true)).to.be.rejected;
-                expect(request.del(server.info.uri + '/classes/restaurant/' + obj.id).auth(userData.username, userData.password, true)).to.be.fulfilled;
+                expect(request.del(server.info.uri + '/restaurant/' + obj.id)).to.be.rejected;
+                expect(request.del(server.info.uri + '/restaurant/' + obj.id).auth(userData.username, "invalidPassword"+shortid.generate(), true)).to.be.rejected;
+                expect(request.del(server.info.uri + '/restaurant/' + obj.id).auth("invalidUsername"+shortid.generate(), userData.password, true)).to.be.rejected;
+                expect(request.del(server.info.uri + '/restaurant/' + obj.id).auth(userData.username, userData.password, true)).to.be.fulfilled;
 
             });
 
@@ -226,13 +226,13 @@ describe("hapi", () => {
                 let restaurantData = {name: "restaurantName", phone: 123123};
 
                 let obj = await request.post({
-                    url: server.info.uri + '/classes/restaurant/',
+                    url: server.info.uri + '/restaurant/',
                     json: true,
                     body: restaurantData
                 });
 
                 expect(request.del({
-                    url: server.info.uri + '/classes/restaurant/'
+                    url: server.info.uri + '/restaurant/'
                 })).to.be.rejected;
 
             });
@@ -241,17 +241,17 @@ describe("hapi", () => {
                 let restaurantData = {name: "restaurantName", phone: 123123};
 
                 let obj = await request.post({
-                    url: server.info.uri + '/classes/restaurant/',
+                    url: server.info.uri + '/restaurant/',
                     json: true,
                     body: restaurantData
                 });
 
                 expect(request.del({
-                    uri:server.info.uri + '/classes/restaurant/',
+                    uri:server.info.uri + '/restaurant/',
                 })).to.be.rejected;
 
                 expect(request.del({
-                    uri:server.info.uri + '/classes/restaurant/',
+                    uri:server.info.uri + '/restaurant/',
                     qs: {
                         username:shortid.generate(),
                         password:userData.password
@@ -259,7 +259,7 @@ describe("hapi", () => {
                 })).to.be.rejected;
 
                 expect(request.del({
-                    uri:server.info.uri + '/classes/restaurant/',
+                    uri:server.info.uri + '/restaurant/',
                     qs: {
                         username:userData.username,
                         password:shortid.generate()
@@ -267,7 +267,7 @@ describe("hapi", () => {
                 })).to.be.rejected;
 
                 expect(request.del({
-                    uri:server.info.uri + '/classes/restaurant/',
+                    uri:server.info.uri + '/restaurant/',
                     qs: {
                         username:userData.username,
                         password:userData.password
@@ -282,16 +282,16 @@ describe("hapi", () => {
 
             it("Fetch", async ()=> {
                 let resourceName = shortid.generate();
-                expect(request({url: server.info.uri + `/classes/${resourceName}/`, json: true})).to.be.rejected;
+                expect(request({url: server.info.uri + `/${resourceName}/`, json: true})).to.be.rejected;
             });
             it("POST and Fetch", async ()=> {
                 let resourceName = shortid.generate();
-                expect(request({url: server.info.uri + `/classes/${resourceName}/`, json: true})).to.be.rejected;
+                expect(request({url: server.info.uri + `/${resourceName}/`, json: true})).to.be.rejected;
 
                 let restaurantData = {name: "restaurantName"};
 
                 let obj = await request.post({
-                    url: server.info.uri + `/classes/${resourceName}/`,
+                    url: server.info.uri + `/${resourceName}/`,
                     json: true,
                     body: restaurantData
                 });
@@ -302,13 +302,13 @@ describe("hapi", () => {
 
 
                 let obj2 = await request.get({
-                    url: server.info.uri + `/classes/${resourceName}/` + obj.id,
+                    url: server.info.uri + `/${resourceName}/` + obj.id,
                     json: true
                 });
 
                 expect(obj).to.deep.equal(obj2);
 
-                expect(request({url: server.info.uri + `/classes/${resourceName}/`, json: true})).to.be.fulfilled;
+                expect(request({url: server.info.uri + `/${resourceName}/`, json: true})).to.be.fulfilled;
 
 
             });

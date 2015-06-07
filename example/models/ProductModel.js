@@ -12,7 +12,7 @@ var productInput = new Input({
     price: {type: "number", required: true},
     VAT: {type: "number", required: true},
     restaurant: {type : "reference", model:"restaurant", required:true},
-    category: {type: "reference", model: "category", through: "categoryRestaurant"},
+    category: {type: "reference", model: "category"},
     orders: {type: "manyToMany", model: "order", inverse: "products", through:"orderProduct"}
 
 });

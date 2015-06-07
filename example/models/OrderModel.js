@@ -11,14 +11,10 @@ let orderInput = new Input({
     code : {type: "number", required:true},
     orderDate : {type: "date", default : "now"},
     deliveryDate : {type: "date", required:false},
-    distance : {type: "number", required:true},
-    distanceCourierRestaurant : {type: "number", required:true},
-    distanceRestaurantClient : {type: "number", required:true},
     state : {type: "number", required:true},
     invoice : {type: "string", required:false},
     deliveryAddress : {type: "string", required:true},
     payed : {type: "boolean", required:true},
-    waitingTimeRestaurant : {type: "number", required:true},
     products: {type: "manyToMany", model: "product", inverse: "orders", through:"orderProduct"},
 
     courier : {type: "reference", model:"courier"}
