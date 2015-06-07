@@ -21,6 +21,35 @@ $ npm test
 $ npm run-script test-cov
 ```
 
+### Configuration
+
+You can change several settings related with database connection, router or server.
+
+```javascript
+let RouterConfig = ApeyEye.RouterConfig;
+
+RouterConfig.basePath = "/api"; //Default is undefined
+
+let DabataseConfig = ApeyEye.DatabaseConfig;
+
+DatabaseConfig.host = "localhost";   //Default is "localhost"
+DatabaseConfig.port = 28015 ; //Default is 28015
+DatabaseConfig.database = "databaseName";  //Default is db1
+
+let ServerConfig = ApeyEye.ServerConfig;
+
+ServerConfig.apiVersion = "1.0";   //Default is "1.0"
+ServerConfig.documentationPath = "/documentation" ; //Default is "/api-docs"
+ServerConfig.documentationEndpoint = "/docs";  //Default is "/docs
+```
+
+Database configurations are prepared to connect to RethinkDB, so it is nedded to setup a new database environment.
+
+### Overview
+
+
+An easy solution is to use https://github.com/RyanAmos/rethinkdb-vagrant.
+
 Apey Eye is a REST framework for Node.js that pretends offer to developers a simple and intuitive way to develop their web services, needing only to understand a small set of concepts.
 
 Apey Eye is based essentially in following concepts:
@@ -551,6 +580,8 @@ let Documentation = Annotations.Documentation;
 class MyResource extends Resource{}
 ```
 
+**Note:** Swagger documentation can be found through requests to *http://\<api-base-path\>/api-docs/*
+
 ## GenericResource
 
 Besides the possibility of defining a *Resource* class in which the developer needs to build its own implementation, the developer can also use a *GenericResource* class where are adopted the default implementation for each method.
@@ -671,6 +702,13 @@ http://api.path/?_page=1&_page_size=15
                                               
 http://api.path/?_format=json 
 ```
+
+As it is possible to receive query and output properties in several layers of framework it was established some rules.
+* **_filter:** all filters presented in requests, resources and models are applied.
+* **_sort:** properties assigned in an higher layer overrides lowers, respecting order by requests are handled, requests, resources, models.
+* **_page_size:** the value of page size applied is the minimum of the values indicated in all layers
+* **_fields:** the set of fields applied is the set of values that are common to all layers. As default all fields are accepted.
+* **_embedded:** the set of fields applied is the set of values that are common to all layers. As default all fields are accepted.
 
 # License
 
