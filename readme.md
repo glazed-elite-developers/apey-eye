@@ -45,10 +45,10 @@ ServerConfig.documentationEndpoint = "/docs";  //Default is "/docs
 
 Database configurations are prepared to connect to RethinkDB, so it is nedded to setup a new database environment.
 
-### Overview
-
-
 An easy solution is to use https://github.com/RyanAmos/rethinkdb-vagrant.
+
+
+### Overview
 
 Apey Eye is a REST framework for Node.js that pretends offer to developers a simple and intuitive way to develop their web services, needing only to understand a small set of concepts.
 
