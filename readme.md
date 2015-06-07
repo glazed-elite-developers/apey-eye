@@ -703,6 +703,13 @@ http://api.path/?_page=1&_page_size=15
 http://api.path/?_format=json 
 ```
 
+As it is possible to receive query and output properties in several layers of framework it was established some rules.
+* **_filter:** all filters presented in requests, resources and models are applied.
+* **_sort:** properties assigned in an higher layer overrides lowers, respecting order by requests are handled, requests, resources, models.
+* **_page_size:** the value of page size applied is the minimum of the values indicated in all layers
+* **_fields:** the set of fields applied is the set of values that are common to all layers. As default all fields are accepted.
+* **_embedded:** the set of fields applied is the set of values that are common to all layers. As default all fields are accepted.
+
 # License
 
 The MIT License (MIT)
