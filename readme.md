@@ -21,6 +21,35 @@ $ npm test
 $ npm run-script test-cov
 ```
 
+### Configuration
+
+You can change several settings related with database connection, router or server.
+
+```javascript
+let RouterConfig = ApeyEye.RouterConfig;
+
+RouterConfig.basePath = "/api"; //Default is undefined
+
+let DabataseConfig = ApeyEye.DatabaseConfig;
+
+DatabaseConfig.host = "localhost";   //Default is "localhost"
+DatabaseConfig.port = 28015 ; //Default is 28015
+DatabaseConfig.database = "databaseName";  //Default is db1
+
+let ServerConfig = ApeyEye.ServerConfig;
+
+ServerConfig.apiVersion = "1.0";   //Default is "1.0"
+ServerConfig.documentationPath = "/documentation" ; //Default is "/api-docs"
+ServerConfig.documentationEndpoint = "/docs";  //Default is "/docs
+```
+
+Database configurations are prepared to connect to RethinkDB, so it is nedded to setup a new database environment.
+
+### Overview
+
+
+An easy solution is to use https://github.com/RyanAmos/rethinkdb-vagrant.
+
 Apey Eye is a REST framework for Node.js that pretends offer to developers a simple and intuitive way to develop their web services, needing only to understand a small set of concepts.
 
 Apey Eye is based essentially in following concepts:
