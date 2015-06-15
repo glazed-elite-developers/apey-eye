@@ -1,3 +1,7 @@
+/**
+ * Used from https://github.com/rektide/laissez-bird
+ */
+
 import Bluebird from 'bluebird';
 import util from 'util';
 
