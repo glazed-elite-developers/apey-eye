@@ -1,80 +1,33 @@
 # Apey Eye
 
 
-### Installation
-
-```
-$ npm install apey-eye
-```
-
-### Start Example
-
-```
-$ npm run-script start-koa
-$ npm run-script start-hapi
-```
-
-### Run Tests
-
-```
-$ npm test
-$ npm run-script test-cov
-```
-
-### Configuration
-
-You can change several settings related with database connection, router or server.
-
-```javascript
-let RouterConfig = ApeyEye.RouterConfig;
-
-RouterConfig.basePath = "/api"; //Default is undefined
-
-let DabataseConfig = ApeyEye.DatabaseConfig;
-
-DatabaseConfig.host = "localhost";   //Default is "localhost"
-DatabaseConfig.port = 28015 ; //Default is 28015
-DatabaseConfig.database = "databaseName";  //Default is db1
-
-let ServerConfig = ApeyEye.ServerConfig;
-
-ServerConfig.apiVersion = "1.0";   //Default is "1.0"
-ServerConfig.documentationPath = "/documentation" ; //Default is "/api-docs"
-ServerConfig.documentationEndpoint = "/docs";  //Default is "/docs
-```
-
-Database configurations are prepared to connect to RethinkDB, so it is nedded to setup a new database environment.
-
 ### Overview
 
+Apey eye is an Object-Resource Mapping Node.js API framework that uses next-generation JS features that can be used today, like [Classes](http://es6-features.org/#ClassDefinition), [Decorators](https://github.com/wycats/javascript-decorators) and [async/await](https://github.com/lukehoban/ecmascript-asyncawait) for maximum expressiveness.
+It can work as a [BAAS]( http://en.wikipedia.org/wiki/Mobile_Backend_as_a_service) out-of-the-box, or be easily configured to match most API needs.
 
-An easy solution is to use https://github.com/RyanAmos/rethinkdb-vagrant.
-
-Apey Eye is a REST framework for Node.js that pretends offer to developers a simple and intuitive way to develop their web services, needing only to understand a small set of concepts.
-
-Apey Eye is based essentially in following concepts:
-
-* **Input:**
-It is the entity used to build a schema to validate data. 
-The main goal is to use instances of this entity associated to *Models* or *Resources* to validate data in any point of requests handling. Can be used to validate data received from clients but can also be used to validate, for example, data sent to them.
-
-* **Model:**
-It is the unique entity in framework able to connect to database, may be implemented in a specific way according to the database that will be used.
-It is a kind of ORM that allows to represent database data through JavaScript objects.
-
-* **Resource:**
-For Apey Eye, the meaning of Resource is almost the same that are presented in the REST architectural style.
-It is the entity responsible to make the data processing and use _Models_ to access data from databases.
+Apey Eye builds on the following classes:
 
 * **Router:**
-It is the entity responsible for mapping HTTP requests received and the _Resources_ in charge for its processing.
+It is the entity responsible for mapping HTTP requests to _Resources_.
 
-As it is already common to have an __object-relational mapping__ for represent relational database content through an object oriented way, that allows handling data in an easier and intuitive way, also **Apey Eye** makes an __object-resource mapping__ where _Resources_ make a direct connection to _Model_ objects.
+* **Resource:**
+A class representing a Resource in the REST sense, that handles all the CRUD operations related to it. Gets the request parameters, possibly interacts with _Models_, and returns an object as a response.
 
-In addition to make the source code and their usage by developers simpler, this perspective was also adopted in order to allow development of REST services in a more organized and simpler way, offering an easy separation of responsibilities between the different entities included in **Apey Eye** framework.
+* **Model:**
+An ORM-like DB table to JS object wrapper. Our example implementation uses [rethinkDB]( http://rethinkdb.com), but it can be replaced by any DB by implementing a new base model. 
 
-Furthermore, this object oriented approach allow entities like _Model_ and _Resource_ to be used in a imperative way by developer, facilitating their use independently of structures such as the _Router_. 
-Thus, this still allows them to be more easily testable programmatically.
+* **Input:**
+It is the entity used to build a schema to validate data.
+The main goal is to use instances of this entity associated to *Models* or *Resources* to validate data in any point of requests handling.
+
+It’s common having an __object-relational mapping__ to interact with relational database content in an object oriented way. Likewise, **Apey Eye** makes an __object-resource mapping__ where the _Resource_ objects has methods that map to _get_, _post_, _put_, _patch_ and _delete_ methods. for a *resource/* or *resource/:id/* url.
+Generally speaking, *static* methods correspond to HTTP methods you’d call on the *resource/* and *instance* methods to HTTP methods you’d call on the *resource/:id*
+
+To make it easier to learn and use **Apey Eye**, the _Model_ objects use the very same methods.
+
+Furthermore, this object oriented approach allow entities like _Model_ and _Resource_ to be used imperatively (e.g. model.delete()), making it easier to use them in other contexts, like unit testing. 
+
 
 ## Index
 
@@ -86,6 +39,8 @@ Thus, this still allows them to be more easily testable programmatically.
 * [Router](https://github.com/glazedSolutions/apey-eye#router)
 * [GenericRouter](https://github.com/glazedSolutions/apey-eye#genericrouter)
 * [Requests](https://github.com/glazedSolutions/apey-eye#requests)
+* [Installation](https://github.com/glazedSolutions/apey-eye#installation)
+
 
 ## Input
 
@@ -682,26 +637,33 @@ If you use a *GenericRouter* would be **Status: 200 OK**, and a new object would
 
 ## Requests
 
-Although many of the following properties can be associated as default programmatically, clients can send to API other properties that will be applied in requests.
+Although most of the following method parameters can be specified programmatically, clients can add them to the requests to taylor the format of the results.
 
 So it is possible to use query params to send properties like *filters*, *sort*, *fields*, *embedded*, *page* and *page_size* and *format*.
 
 ```
+Normal method call:
 http://api.path/
 
-
+Only return objects with property name==”Filipe”
 http://api.path/?_filter={"name":"Filipe"}
 
+Sort results by reverse alphabetical order of the name, followed by a secondary ascending sort by age:
 http://api.path/?_sort=["-name","age"]
 
-http://api.path/?_fields=["_id", "name", "age", "BI"] NA RESPOSTA
+Return object only with some of it’s fields:
+http://api.path/?_fields=["_id", "name", "age", "BI"] 
 
+Expand other resources, embedding their details:
 http://api.path/?_embedded=["photos", "posts"]
 
+Return paginated results:
 http://api.path/?_page=1&_page_size=15         
                                               
+Return result in a specific format:
 http://api.path/?_format=json 
 ```
+
 
 As it is possible to receive query and output properties in several layers of framework it was established some rules.
 * **_filter:** all filters presented in requests, resources and models are applied.
@@ -709,6 +671,53 @@ As it is possible to receive query and output properties in several layers of fr
 * **_page_size:** the value of page size applied is the minimum of the values indicated in all layers
 * **_fields:** the set of fields applied is the set of values that are common to all layers. As default all fields are accepted.
 * **_embedded:** the set of fields applied is the set of values that are common to all layers. As default all fields are accepted.
+
+### Installation
+
+```
+$ npm install apey-eye
+```
+
+### Start Example
+
+```
+$ npm run-script start-koa
+$ npm run-script start-hapi
+```
+
+### Run Tests
+
+```
+$ npm test
+$ npm run-script test-cov
+```
+
+### Configuration
+
+You can change several settings related with database connection, router or server.
+
+```javascript
+let RouterConfig = ApeyEye.RouterConfig;
+
+RouterConfig.basePath = "/api"; //Default is undefined
+
+let DabataseConfig = ApeyEye.DatabaseConfig;
+
+DatabaseConfig.host = "localhost";   //Default is "localhost"
+DatabaseConfig.port = 28015 ; //Default is 28015
+DatabaseConfig.database = "databaseName";  //Default is db1
+
+let ServerConfig = ApeyEye.ServerConfig;
+
+ServerConfig.apiVersion = "1.0";   //Default is "1.0"
+ServerConfig.documentationPath = "/documentation" ; //Default is "/api-docs"
+ServerConfig.documentationEndpoint = "/docs";  //Default is "/docs
+```
+
+Database configurations are prepared to connect to RethinkDB, so it is nedded to setup a new database environment.
+
+An easy solution is to use https://github.com/RyanAmos/rethinkdb-vagrant.
+
 
 # License
 
