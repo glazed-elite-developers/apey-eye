@@ -358,7 +358,7 @@ curl -X GET \
 * **Access one object**
 
 ```javascript
-let list = RestaurantResource.fetchOne({id:"6507da1f954a"});
+let obj = RestaurantResource.fetchOne({id:"6507da1f954a"});
  
 curl -X GET \
   https://api.apey-eye.com/restaurant/6507da1f954a/
